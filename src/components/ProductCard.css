@@ -1,0 +1,338 @@
+/* =============================================
+   PRODUCT CARD - Industrial Tech v3.0
+   ============================================= */
+
+.product-card {
+    position: relative;
+    background: rgba(13, 13, 13, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    isolation: isolate;
+}
+
+/* === HUD / Tech Accents === */
+/* Top Right Cutout Effect */
+.product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 40px 40px 0;
+    border-color: transparent var(--color-green-dark) transparent transparent;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+/* Bottom Left Tech Marker */
+.product-card::after {
+    content: '';
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    width: 20px;
+    height: 2px;
+    background: var(--color-green);
+    box-shadow: 0 0 10px var(--color-green);
+    opacity: 0.3;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+/* Hover State */
+.product-card:hover {
+    background: rgba(13, 13, 13, 0.8);
+    border-color: var(--color-green);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+        0 20px 40px -10px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(74, 124, 35, 0.2),
+        inset 0 0 0 1px rgba(74, 124, 35, 0.3);
+    z-index: 10;
+}
+
+.product-card:hover::before {
+    opacity: 1;
+    border-width: 0 60px 60px 0;
+}
+
+.product-card:hover::after {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    opacity: 1;
+    box-shadow: 0 -4px 20px var(--color-green);
+}
+
+.product-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================= 
+   BADGES
+   ============================================= */
+.product-card__badges {
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-4);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.badge {
+    padding: 4px 8px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    border: 1px solid transparent;
+    backdrop-filter: blur(4px);
+}
+
+.badge-success {
+    background: rgba(74, 124, 35, 0.2);
+    color: #4caf50;
+    border-color: rgba(74, 124, 35, 0.5);
+    box-shadow: 0 0 10px rgba(74, 124, 35, 0.2);
+}
+
+.badge-warning {
+    background: rgba(255, 179, 0, 0.15);
+    color: #ffd740;
+    border-color: rgba(255, 179, 0, 0.4);
+}
+
+.badge-promo {
+    background: rgba(255, 61, 0, 0.15);
+    color: #ff6e40;
+    border-color: rgba(255, 61, 0, 0.4);
+}
+
+/* ============================================= 
+   IMAGE AREA
+   ============================================= */
+.product-card__image-wrapper {
+    position: relative;
+    aspect-ratio: 1;
+    padding: var(--space-6);
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Grid overlay on image bg */
+.product-card__image-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+}
+
+.product-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1;
+}
+
+.product-card:hover .product-card__image {
+    transform: scale(1.15) translateY(-10px) rotate(2deg);
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+}
+
+/* ============================================= 
+   CONTENT
+   ============================================= */
+.product-card__content {
+    padding: var(--space-5);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card__brand {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-green);
+    margin-bottom: 6px;
+    opacity: 0.8;
+}
+
+.product-card__title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    line-height: 1.1;
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: color 0.3s ease;
+}
+
+.product-card:hover .product-card__title {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================= 
+   FOOTER / PRICING & ACTIONS
+   ============================================= */
+.product-card__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.product-card__pricing {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card__price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 20px rgba(74, 124, 35, 0.4);
+}
+
+.product-card__old-price {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+/* Add To Cart Button - Industrial Style */
+.product-card__add-btn {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card__add-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-green);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+}
+
+.product-card__add-btn svg {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.product-card__add-btn:hover:not(:disabled) {
+    border-color: var(--color-green);
+    box-shadow: 0 0 15px rgba(74, 124, 35, 0.4);
+}
+
+.product-card__add-btn:hover:not(:disabled)::before {
+    transform: translateY(0);
+}
+
+.product-card__add-btn:hover:not(:disabled) svg {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* Wishlist Button */
+.product-card__wishlist-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.product-card__wishlist-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ff4081;
+    transform: scale(1.1);
+    border-color: rgba(255, 64, 129, 0.3);
+}
+
+.product-card__wishlist-btn.active {
+    background: rgba(255, 64, 129, 0.15);
+    border-color: rgba(255, 64, 129, 0.5);
+    color: #ff4081;
+    box-shadow: 0 0 15px rgba(255, 64, 129, 0.3);
+}
+
+/* Stock Status */
+.product-card__stock {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 8px;
+    background: rgba(220, 38, 38, 0.9);
+    color: white;
+    font-size: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    backdrop-filter: blur(4px);
+    z-index: 20;
+}

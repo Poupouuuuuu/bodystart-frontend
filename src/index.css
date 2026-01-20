@@ -1,0 +1,861 @@
+/* =============================================
+   BODYSTART NUTRITION - Industrial Urban Jungle
+   Design System v2.0
+   ============================================= */
+
+/* ============================================= 
+   CSS RESET & BASE
+   ============================================= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  /* scroll-behavior: smooth;  <-- REMOVED to fix scroll issues with React Router */
+  font-size: 16px;
+  scroll-padding-top: 100px;
+  /* For anchor links */
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ============================================= 
+   CSS VARIABLES - Industrial Urban Jungle
+   ============================================= */
+:root {
+  /* === Primary Colors - Concrete & Stone === */
+  --color-concrete-dark: #1a1a1a;
+  --color-concrete: #2d2d2d;
+  --color-concrete-light: #3a3a3a;
+  --color-concrete-medium: #4a4a4a;
+  --color-stone: #5a5a5a;
+
+  /* === Accent Colors - Living Green === */
+  --color-green-dark: #1a3d0c;
+  --color-green: #2d5016;
+  --color-green-mid: #3d6b1e;
+  --color-green-bright: #4a7c23;
+  --color-green-light: #5a9429;
+  --color-green-glow: rgba(74, 124, 35, 0.4);
+
+  /* === Accent Colors - Industrial Metal === */
+  --color-metal-dark: #0d0d0d;
+  --color-metal: #1a1a1a;
+  --color-metal-light: #2a2a2a;
+  --color-rust: #8b4513;
+
+  /* === Warm Lighting - Edison Glow === */
+  --color-amber: #d4a656;
+  --color-amber-light: #e8c078;
+  --color-amber-glow: rgba(212, 166, 86, 0.3);
+  --color-warm-white: #fff8e7;
+
+  /* === Semantic Colors === */
+  --color-bg: #1a1a1a;
+  --color-bg-elevated: #2d2d2d;
+  --color-text: #f5f5f0;
+  --color-text-secondary: #a0a0a0;
+  --color-text-muted: #6a6a6a;
+
+  --color-primary: var(--color-green-bright);
+  --color-primary-hover: var(--color-green-light);
+  --color-secondary: var(--color-amber);
+  --color-secondary-hover: var(--color-amber-light);
+
+  --color-success: #4a7c23;
+  --color-warning: #d4a656;
+  --color-error: #c44536;
+  --color-info: #6a8a9a;
+
+  /* === Typography === */
+  --font-display: 'Bebas Neue', 'Impact', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-size-4xl: 2.5rem;
+  --font-size-5xl: 3.5rem;
+  --font-size-6xl: 4.5rem;
+
+  /* === Spacing === */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* === Border Radius === */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* === Shadows === */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow-green: 0 0 20px var(--color-green-glow);
+  --shadow-glow-amber: 0 0 20px var(--color-amber-glow);
+
+  /* === Transitions === */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* === Z-Index === */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+
+  /* === Container === */
+  /* === Glassmorphism Variables === */
+  --glass-bg: rgba(26, 26, 26, 0.7);
+  --glass-bg-dark: rgba(26, 26, 26, 0.85);
+  --glass-bg-light: rgba(45, 45, 45, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(12px);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  /* === Extended Spacing Scale === */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* === Text Size Aliases (for component compatibility) === */
+  --text-xs: var(--font-size-xs);
+  --text-sm: var(--font-size-sm);
+  --text-base: var(--font-size-md);
+  --text-lg: var(--font-size-lg);
+  --text-xl: var(--font-size-xl);
+  --text-2xl: var(--font-size-2xl);
+  --text-3xl: var(--font-size-3xl);
+  --text-4xl: var(--font-size-4xl);
+  --text-5xl: var(--font-size-5xl);
+
+  /* === Extended Radius === */
+  --radius-full: 9999px;
+  --radius-2xl: 24px;
+
+  /* === Additional Colors === */
+  --color-surface: var(--color-concrete);
+  --color-bg-card: var(--color-concrete);
+  --color-bg-input: var(--color-metal);
+  --color-bg-dark: var(--color-metal-dark);
+  --color-border: var(--color-concrete-light);
+  --color-border-hover: var(--color-concrete-medium);
+  --color-text-primary: var(--color-text);
+  --color-primary-light: var(--color-green-light);
+
+  /* === Gradients === */
+  --gradient-text: linear-gradient(135deg, var(--color-green-bright), var(--color-green-light));
+  --gradient-primary: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-bright) 100%);
+
+  /* === Transitions === */
+  --transition-normal: 300ms ease;
+
+  --container-max: 1280px;
+  --container-padding: 1.5rem;
+}
+
+/* ============================================= 
+   GLASS UTILITIES
+   ============================================= */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  /* Safari support */
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ============================================= 
+   TYPOGRAPHY
+   ============================================= */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--font-size-5xl);
+}
+
+h2 {
+  font-size: var(--font-size-4xl);
+}
+
+h3 {
+  font-size: var(--font-size-3xl);
+}
+
+h4 {
+  font-size: var(--font-size-2xl);
+}
+
+h5 {
+  font-size: var(--font-size-xl);
+}
+
+h6 {
+  font-size: var(--font-size-lg);
+}
+
+p {
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* === Text Utilities === */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-green-bright), var(--color-green-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-amber {
+  background: linear-gradient(135deg, var(--color-amber), var(--color-amber-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================= 
+   BACKGROUND TEXTURES
+   ============================================= */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    /* Vignette */
+    radial-gradient(circle at center, transparent 0%, #000 120%),
+    /* Noise */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+    /* Mesh Grid */
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    /* Base Gradient */
+    linear-gradient(180deg, #121212 0%, #050505 100%);
+  background-size: 100% 100%, 200px 200px, 40px 40px, 40px 40px, 100% 100%;
+  opacity: 1;
+}
+
+/* Plant wall accent - left side */
+.plant-accent-left {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(180deg,
+      var(--color-green-dark) 0%,
+      var(--color-green) 30%,
+      var(--color-green-bright) 50%,
+      var(--color-green) 70%,
+      var(--color-green-dark) 100%);
+  z-index: 1000;
+}
+
+/* ============================================= 
+   LAYOUT
+   ============================================= */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.section {
+  padding: var(--space-4xl) 0;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.section-title h2 {
+  margin-bottom: var(--space-md);
+}
+
+.section-title p {
+  font-size: var(--font-size-lg);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Grid System */
+.grid {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+
+  .grid-4,
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================= 
+   INDUSTRIAL CARD STYLES
+   ============================================= */
+.card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--color-green-bright), var(--color-green-dark));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.card:hover {
+  border-color: var(--color-green);
+  box-shadow: var(--shadow-glow-green);
+  transform: translateY(-4px);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* Metal frame card */
+.card-metal {
+  background: linear-gradient(135deg, var(--color-metal) 0%, var(--color-metal-light) 100%);
+  border: 2px solid var(--color-concrete-medium);
+  position: relative;
+}
+
+.card-metal::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid var(--color-concrete-light);
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+}
+
+/* ============================================= 
+   BUTTONS
+   ============================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  font-family: var(--font-display);
+  font-size: var(--font-size-md);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+}
+
+.btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Primary - Green with glow */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-bright) 100%);
+  color: var(--color-warm-white);
+  border-color: var(--color-green-bright);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-green-bright) 0%, var(--color-green-light) 100%);
+  box-shadow: var(--shadow-glow-green);
+  transform: translateY(-2px);
+}
+
+/* Secondary - Amber/Gold */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-amber);
+  border-color: var(--color-amber);
+}
+
+.btn-secondary:hover {
+  background: var(--color-amber);
+  color: var(--color-metal-dark);
+  box-shadow: var(--shadow-glow-amber);
+}
+
+/* Outline - Metal */
+.btn-outline {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-concrete-medium);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-green);
+  color: var(--color-green-bright);
+}
+
+/* Button Sizes */
+.btn-sm {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+  padding: var(--space-lg) var(--space-2xl);
+  font-size: var(--font-size-lg);
+}
+
+/* ============================================= 
+   BADGES
+   ============================================= */
+.badge {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+}
+
+.badge-success {
+  background: var(--color-green);
+  color: var(--color-warm-white);
+}
+
+.badge-warning {
+  background: var(--color-amber);
+  color: var(--color-metal-dark);
+}
+
+.badge-promo {
+  background: var(--color-error);
+  color: var(--color-text);
+}
+
+.badge-new {
+  background: linear-gradient(135deg, var(--color-amber), var(--color-amber-light));
+  color: var(--color-metal-dark);
+}
+
+/* ============================================= 
+   FORM ELEMENTS
+   ============================================= */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  background: var(--color-metal);
+  border: 2px solid var(--color-concrete-light);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px var(--color-green-glow);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+/* ============================================= 
+   INDUSTRIAL DECORATIONS
+   ============================================= */
+/* Metal bolts/screws decoration */
+.metal-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-concrete-medium) 40%, var(--color-metal) 60%);
+  border: 2px solid var(--color-concrete-light);
+}
+
+.metal-corner--tl {
+  top: 8px;
+  left: 8px;
+}
+
+.metal-corner--tr {
+  top: 8px;
+  right: 8px;
+}
+
+.metal-corner--bl {
+  bottom: 8px;
+  left: 8px;
+}
+
+.metal-corner--br {
+  bottom: 8px;
+  right: 8px;
+}
+
+/* Pipe/conduit decoration */
+.pipe {
+  background: linear-gradient(90deg,
+      var(--color-concrete-medium) 0%,
+      var(--color-stone) 50%,
+      var(--color-concrete-medium) 100%);
+  border-radius: 4px;
+}
+
+.pipe-horizontal {
+  height: 8px;
+  width: 100%;
+}
+
+.pipe-vertical {
+  width: 8px;
+  height: 100%;
+}
+
+/* Edison light glow effect */
+.edison-glow {
+  position: relative;
+}
+
+.edison-glow::before {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, var(--color-amber-glow) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ============================================= 
+   UTILITY CLASSES
+   ============================================= */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-sm {
+  gap: var(--space-sm);
+}
+
+.gap-md {
+  gap: var(--space-md);
+}
+
+.gap-lg {
+  gap: var(--space-lg);
+}
+
+.gap-xl {
+  gap: var(--space-xl);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mt-sm {
+  margin-top: var(--space-sm);
+}
+
+.mt-md {
+  margin-top: var(--space-md);
+}
+
+.mt-lg {
+  margin-top: var(--space-lg);
+}
+
+.mt-xl {
+  margin-top: var(--space-xl);
+}
+
+.mb-sm {
+  margin-bottom: var(--space-sm);
+}
+
+.mb-md {
+  margin-bottom: var(--space-md);
+}
+
+.mb-lg {
+  margin-bottom: var(--space-lg);
+}
+
+.mb-xl {
+  margin-bottom: var(--space-xl);
+}
+
+.hidden {
+  display: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================= 
+   SCROLLBAR
+   ============================================= */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-metal);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-concrete-medium);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-green);
+}
+
+/* ============================================= 
+   ANIMATIONS
+   ============================================= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px var(--color-green-glow);
+  }
+
+  50% {
+    box-shadow: 0 0 40px var(--color-green-glow);
+  }
+}
+
+@keyframes flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-flicker {
+  animation: flicker 3s ease-in-out infinite;
+}
+
+/* ============================================= 
+   APP STRUCTURE
+   ============================================= */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+/* ============================================= 
+   RESPONSIVE TYPOGRAPHY
+   ============================================= */
+@media (max-width: 768px) {
+  h1 {
+    font-size: var(--font-size-4xl);
+  }
+
+  h2 {
+    font-size: var(--font-size-3xl);
+  }
+
+  h3 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .section {
+    padding: var(--space-3xl) 0;
+  }
+}
