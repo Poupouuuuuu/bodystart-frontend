@@ -1,5 +1,5 @@
 .product-detail {
-    padding-top: 70px;
+    padding-top: 20px;
     min-height: 100vh;
 }
 
@@ -166,6 +166,7 @@
     font-size: var(--text-5xl);
     color: var(--color-text-primary);
     text-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    white-space: nowrap;
 }
 
 .product-detail__old-price {

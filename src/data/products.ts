@@ -11,16 +11,26 @@ export interface Product {
     usage?: string
     precautions?: string
     weight?: string
+    servings?: string
+    highlights?: string[]
+    tags?: string[]
     flavors?: (string | { name: string; image?: string })[]
     nutritionalValues?: {
         portion: string
         energy: string
+        energy100g?: string
         fats: string
+        fats100g?: string
         fatsSaturated: string
+        fatsSaturated100g?: string
         carbs: string
+        carbs100g?: string
         carbsSugar: string
+        carbsSugar100g?: string
         protein: string
+        protein100g?: string
         salt: string
+        salt100g?: string
     }
     aminogram?: {
         label: string
@@ -32,7 +42,7 @@ export interface Product {
 }
 
 export const categories = [
-    { id: 'proteines', name: 'Protéines', icon: '', image: '/images/categories/eric-favre-iso-zero.png' },
+    { id: 'proteines', name: 'Protéines', icon: '', image: '/images/products/iso-zero/vanille.png' },
     { id: 'creatine', name: 'Créatine', icon: '', image: '/images/categories/creatine.png' },
     { id: 'vitamines', name: 'Vitamines & Minéraux', icon: '', image: '/images/categories/vitamines.png' },
     { id: 'omega3', name: 'Oméga-3', icon: '', image: '/images/categories/omega3.png' },
@@ -116,34 +126,8 @@ Les jours de repos : prendre 1 mesure de 30g dans 150 à 200ml d’eau en encas 
         inStock: true,
         isBestseller: true,
     },
-    {
-        id: 'ef-whey-chocolat',
-        name: 'Whey Protein Chocolat',
-        brand: 'Eric Favre',
-        category: 'proteines',
-        price: 34.90,
-        oldPrice: 44.90,
-        image: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400',
-        description: 'Whey protéine de haute qualité avec un délicieux goût chocolat. Idéale pour la récupération musculaire après l\'entraînement.',
-        ingredients: 'Concentré de protéines de lactosérum, cacao maigre, arômes, émulsifiant (lécithine de soja), édulcorant (sucralose).',
-        usage: 'Mélanger 30g (1 dose) avec 200-250ml d\'eau ou de lait. Consommer après l\'entraînement.',
-        weight: '2kg',
-        inStock: true,
-        isBestseller: true,
-    },
-    {
-        id: 'ef-whey-vanille',
-        name: 'Whey Protein Vanille',
-        brand: 'Eric Favre',
-        category: 'proteines',
-        price: 34.90,
-        image: 'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?w=400',
-        description: 'Whey protéine onctueuse saveur vanille crémeuse. 80% de protéines par portion.',
-        ingredients: 'Concentré de protéines de lactosérum, arômes naturels, émulsifiant (lécithine de soja), édulcorant (sucralose).',
-        usage: 'Mélanger 30g avec 200-250ml d\'eau ou de lait.',
-        weight: '2kg',
-        inStock: true,
-    },
+
+
     {
         id: 'ef-creatine-mono',
         name: 'Créatine Monohydrate Pure',
@@ -173,20 +157,7 @@ Les jours de repos : prendre 1 mesure de 30g dans 150 à 200ml d’eau en encas 
     },
 
     // NutriMuscle
-    {
-        id: 'nm-whey-native',
-        name: 'Whey Native Bio',
-        brand: 'NutriMuscle',
-        category: 'proteines',
-        price: 42.90,
-        image: 'https://images.unsplash.com/photo-1612961616315-63cca93a3f57?w=400',
-        description: 'Whey native issue de lait français bio. Extraction à froid pour une qualité maximale.',
-        ingredients: 'Whey native bio (lait français), arômes naturels.',
-        usage: '25g par portion après l\'entraînement.',
-        weight: '1.2kg',
-        inStock: true,
-        isNew: true,
-    },
+
     {
         id: 'nm-omega3',
         name: 'Oméga-3 Epax® Premium',
@@ -217,18 +188,122 @@ Les jours de repos : prendre 1 mesure de 30g dans 150 à 200ml d’eau en encas 
 
     // Coregenic
     {
-        id: 'cg-isolate-choco',
-        name: 'Whey Isolate Chocolat',
+        id: 'cg-isolate-subzero',
+        name: 'Sub Zero Whey Isolate',
         brand: 'Coregenic',
         category: 'proteines',
-        price: 49.90,
-        oldPrice: 59.90,
-        image: 'https://images.unsplash.com/photo-1579722820903-6548e8c52599?w=400',
-        description: 'Isolat de whey ultra-filtré. 90% de protéines, faible en lactose et graisses.',
-        ingredients: 'Isolat de protéines de lactosérum, cacao, arômes, édulcorant (stévia).',
-        usage: '30g après l\'entraînement.',
+        price: 79.90,
+        image: '/images/products/coregenic/sub-zero-chocolate-muffin.png',
+        description: `SUB ZERO est un isolat de whey ultra-pure, formulé pour offrir une assimilation rapide, une excellente digestibilité et une qualité protéique exceptionnelle. Conçue pour les athlètes exigeants, elle soutient efficacement la performance, la récupération et le développement musculaire.
+
+Préparation en poudre pour boisson aromatisée à base de protéines de lactosérum et glutamine avec édulcorants.`,
+        ingredients: `Parfum Crème de vanille :
+Isolat de protéines de lactosérum (lait), concentré de protéines de lactosérum (lait), L-glutamine, arôme, stabilisant : gomme xanthane, émulsifiants : lécithine de tournesol, lécithine de soja; édulcorants : acésulfame de potassium, sucralose, glycosides de stéviol issus de Stevia.
+
+Parfum Chocolat riche :
+Isolat de protéines de lactosérum (lait), concentré de protéines de lactosérum (lait), cacao maigre en poudre, arôme, L-glutamine, stabilisant : gomme xanthane, émulsifiants : lécithine de tournesol, lécithine de soja; édulcorants : acésulfame de potassium, sucralose, glycosides de stéviol issus de Stevia.
+
+Parfum Cookies & crème :
+Isolat de protéines de lactosérum (lait), concentré de protéines de lactosérum (lait), L-glutamine, arôme, stabilisant : gomme xanthane, cacao maigre en poudre, émulsifiants : lécithine de tournesol, lécithine de soja; édulcorants : acésulfame de potassium, sucralose, glycosides de stéviol issus de Stevia.
+
+Parfum Muffin au chocolat gourmand :
+Isolat de protéines de lactosérum (lait), concentré de protéines de lactosérum (lait), cacao maigre en poudre, arôme, L-glutamine, stabilisant : gomme xanthane, émulsifiants : lécithine de tournesol, lécithine de soja; édulcorants : acésulfame de potassium, sucralose, glycosides de stéviol issus de Stevia.`,
+        usage: 'Mélanger 1 cuillère doseuse (1 portion = 27 g) avec 250 ml d’eau dans un shaker. Prendre 2 portions par jour.',
+        precautions: 'Ne pas dépasser la dose recommandée. En cas de doute consultez un avis médical. Ce produit doit être utilisé dans le cadre d’un mode de vie sain et ne pas être utilisé comme substitut d’un régime alimentaire varié et équilibré. Tenir hors de la portée des enfants. A conserver au frais, au sec et à l\'abri de la lumière. A consommer de préférence avant fin : voir la date figurant sur l’emballage. Numéro de Lot : voir le numéro figurant sur l’emballage.',
         weight: '2kg',
+        servings: '74 doses',
+        highlights: [
+            'Protéine de lactosérum isolée de très haute qualité',
+            'Ultrafiltration à basse température préservant les protéines',
+            'Assimilation rapide et excellente digestibilité',
+            'Riche en acides aminés essentiels (BCAA)',
+            'Sans aspartame, OGM ni sucres ajoutés'
+        ],
+        nutritionalValues: {
+            portion: "54g (2 doses)",
+            energy: "847kj / 203kcal",
+            energy100g: "1569kj / 375kcal",
+            fats: "0.9g",
+            fats100g: "1.7g",
+            fatsSaturated: "0.3g",
+            fatsSaturated100g: "0.6g",
+            carbs: "3.7g",
+            carbs100g: "6.9g",
+            carbsSugar: "2.0g",
+            carbsSugar100g: "3.7g",
+            protein: "45g",
+            protein100g: "83g",
+            salt: "0.33g",
+            salt100g: "0.62g"
+        },
+        flavors: [
+            { name: 'Chocolate Muffin', image: '/images/products/coregenic/sub-zero-chocolate-muffin.png' },
+            { name: 'Vanilla Cream', image: '/images/products/coregenic/sub-zero-vanilla.png' },
+            { name: 'Cookies & Cream', image: '/images/products/coregenic/sub-zero-cookies-cream.png' },
+            { name: 'Rich Chocolate', image: '/images/products/coregenic/sub-zero-rich-chocolate.png' },
+            { name: 'Caramel Latte', image: '/images/products/coregenic/sub-zero-caramel-latte.png' }
+        ],
+        tags: ['premium', 'glutamine', 'isolate'],
         inStock: true,
+        isNew: true,
+    },
+    {
+        id: 'cg-isolate-subzero-810',
+        name: 'Sub Zero Whey Isolate',
+        brand: 'Coregenic',
+        category: 'proteines',
+        price: 39.90,
+        image: '/images/products/coregenic/sub-zero-810g-cookies-cream.png',
+        description: `SUB ZERO est un isolat de whey ultra-pure, formulé pour offrir une assimilation rapide, une excellente digestibilité et une qualité protéique exceptionnelle. Conçue pour les athlètes exigeants, elle soutient efficacement la performance, la récupération et le développement musculaire.
+
+Préparation en poudre pour boisson aromatisée à base de protéines de lactosérum et glutamine avec édulcorants.`,
+        ingredients: `Parfum Crème de vanille :
+Isolat de protéines de lactosérum (lait), concentré de protéines de lactosérum (lait), L-glutamine, arôme, stabilisant : gomme xanthane, émulsifiants : lécithine de tournesol, lécithine de soja; édulcorants : acésulfame de potassium, sucralose, glycosides de stéviol issus de Stevia.
+
+Parfum Chocolat riche :
+Isolat de protéines de lactosérum (lait), concentré de protéines de lactosérum (lait), cacao maigre en poudre, arôme, L-glutamine, stabilisant : gomme xanthane, émulsifiants : lécithine de tournesol, lécithine de soja; édulcorants : acésulfame de potassium, sucralose, glycosides de stéviol issus de Stevia.
+
+Parfum Cookies & crème :
+Isolat de protéines de lactosérum (lait), concentré de protéines de lactosérum (lait), L-glutamine, arôme, stabilisant : gomme xanthane, cacao maigre en poudre, émulsifiants : lécithine de tournesol, lécithine de soja; édulcorants : acésulfame de potassium, sucralose, glycosides de stéviol issus de Stevia.
+
+Parfum Muffin au chocolat gourmand :
+Isolat de protéines de lactosérum (lait), concentré de protéines de lactosérum (lait), cacao maigre en poudre, arôme, L-glutamine, stabilisant : gomme xanthane, émulsifiants : lécithine de tournesol, lécithine de soja; édulcorants : acésulfame de potassium, sucralose, glycosides de stéviol issus de Stevia.`,
+        usage: 'Mélanger 1 cuillère doseuse (1 portion = 27 g) avec 250 ml d’eau dans un shaker. Prendre 2 portions par jour.',
+        precautions: 'Ne pas dépasser la dose recommandée. En cas de doute consultez un avis médical. Ce produit doit être utilisé dans le cadre d’un mode de vie sain et ne pas être utilisé comme substitut d’un régime alimentaire varié et équilibré. Tenir hors de la portée des enfants. A conserver au frais, au sec et à l\'abri de la lumière. A consommer de préférence avant fin : voir la date figurant sur l’emballage. Numéro de Lot : voir le numéro figurant sur l’emballage.',
+        weight: '810g',
+        servings: '30 doses',
+        highlights: [
+            'Protéine de lactosérum isolée de très haute qualité',
+            'Ultrafiltration à basse température préservant les protéines',
+            'Assimilation rapide et excellente digestibilité',
+            'Riche en acides aminés essentiels (BCAA)',
+            'Sans aspartame, OGM ni sucres ajoutés'
+        ],
+        nutritionalValues: {
+            portion: "54g (2 doses)",
+            energy: "847kj / 203kcal",
+            energy100g: "1569kj / 375kcal",
+            fats: "0.9g",
+            fats100g: "1.7g",
+            fatsSaturated: "0.3g",
+            fatsSaturated100g: "0.6g",
+            carbs: "3.7g",
+            carbs100g: "6.9g",
+            carbsSugar: "2.0g",
+            carbsSugar100g: "3.7g",
+            protein: "45g",
+            protein100g: "83g",
+            salt: "0.33g",
+            salt100g: "0.62g"
+        },
+        flavors: [
+            { name: 'Cookies & Cream', image: '/images/products/coregenic/sub-zero-810g-cookies-cream.png' },
+            { name: 'Rich Chocolate', image: '/images/products/coregenic/sub-zero-810g-rich-chocolate.png' },
+            { name: 'Vanilla Cream', image: '/images/products/coregenic/sub-zero-810g-vanilla.png' }
+        ],
+        tags: ['premium', 'glutamine', 'isolate'],
+        inStock: true,
+        isNew: true,
     },
     {
         id: 'cg-preworkout',
@@ -244,18 +319,244 @@ Les jours de repos : prendre 1 mesure de 30g dans 150 à 200ml d’eau en encas 
         inStock: true,
         isNew: true,
     },
+
+
     {
-        id: 'cg-mass-gainer',
-        name: 'Mass Gainer Extreme',
-        brand: 'Coregenic',
+        id: 'fn-iso-protein-900',
+        name: 'La French Iso Protein',
+        brand: 'French Nutrition',
         category: 'proteines',
-        price: 39.90,
-        image: 'https://images.unsplash.com/photo-1598614187854-26a60e982dc4?w=400',
-        description: 'Gainer haute calorie pour prise de masse. 1200 kcal par portion.',
-        ingredients: 'Maltodextrine, concentré de whey, avoine, MCT.',
-        usage: '150g avec 400ml de lait.',
-        weight: '3kg',
+        price: 44.90, // Prix estimatif, à confirmer
+        image: '/images/products/french-nutrition/iso-protein-triple-chocolat.png',
+        description: `L’ISO Protein de La French Nutrition est une protéine de lactosérum de très haute qualité, idéale pour les sportifs en quête de performance et de récupération optimale. Conçue avec de l’isolat de protéine Volactive® UltraWhey XP, cette formule assure une assimilation rapide, un apport protéique élevé et une très faible teneur en sucres. Savourez chaque shaker avec nos parfums délicieux : Vanille de Madagascar ou Triple Chocolat.`,
+        ingredients: `Triple Chocolat :
+Isolat de protéine de lactosérum (LAIT), poudre de cacao, arôme, émulsifiant : texturecel, épaississant : gomme de guar, sel, édulcorants : sucralose, acésulfame K.
+
+Vanille de Madagascar :
+Isolat de protéine de lactosérum (LAIT), arôme, émulsifiant : texturecel, épaississant : gomme de guar, sel, édulcorants : sucralose, acésulfame K.
+
+INFORMATIONS ALLERGÈNES :
+Contient du LAIT. Peut contenir des traces de gluten, œufs, graines de sésame, fruits à coque, céleri, sulfites, soja, arachide.`,
+        usage: 'Mélanger une cuillère de 30 g d\'ISO Protein dans un shaker de 200 ml d\'eau. À consommer directement après préparation. Favoriser la prise de protéines après une activité physique.',
+        precautions: `Ne pas dépasser la dose recommandée. Ne pas consommer pendant la grossesse ou l’allaitement sans avis médical. Ne remplace pas une alimentation variée et équilibrée. Ne pas consommer en cas d’allergie à l’un des ingrédients.
+        
+CONDITIONS DE STOCKAGE :
+Conserver dans un endroit frais et sec, hors de portée des enfants. Éviter l'exposition à la chaleur et aux rayons du soleil.`,
+        weight: '900g',
+        servings: '30 doses',
+        highlights: [
+            '100 % isolat de protéine de lactosérum (Volactive® UltraWhey XP)',
+            'À partir de 23,8g de protéines par portion',
+            'Faible en sucre',
+            'Saveurs gourmandes',
+            'Pratique et transportable (doypack)'
+        ],
+        nutritionalValues: {
+            portion: "30g",
+            energy: "451kj / 108kcal",
+            energy100g: "1503kj / 359kcal",
+            fats: "0.45g",
+            fats100g: "1.5g",
+            fatsSaturated: "0.24g",
+            fatsSaturated100g: "0.8g",
+            carbs: "2.2g",
+            carbs100g: "7.3g",
+            carbsSugar: "1.62g",
+            carbsSugar100g: "5.4g",
+            protein: "23.8g",
+            protein100g: "79.1g",
+            salt: "0.15g",
+            salt100g: "0.5g"
+        },
+        flavors: [
+            { name: 'Triple Chocolat', image: '/images/products/french-nutrition/iso-protein-triple-chocolat.png' },
+            { name: 'Vanille de Madagascar', image: '/images/products/french-nutrition/iso-protein-vanille.png' }
+        ],
+        tags: ['isolate', 'premium', 'french'],
         inStock: true,
+        isNew: true,
+    },
+
+    {
+        id: 'fn-iso-french-1500',
+        name: 'Iso French Protein',
+        brand: 'French Nutrition',
+        category: 'proteines',
+        price: 74.90, // Prix confirmé
+        image: '/images/products/french-nutrition/iso-french-protein-dark-cookies.png',
+        description: `ISO FRENCH Volactive® de La French Nutrition est un isolat de whey hautement purifié, élaboré à partir de lait européen de qualité. Grâce à un double procédé de filtration ultrafiltration + microfiltration (CFM), elle offre une digestibilité optimale, un profil d’acides aminés complet, et une protéine ultra clean, parfaite pour les sportifs exigeants.
+
+Avec 79 g de protéines / 100 g, très peu de sucre et une faible teneur en matières grasses, elle est idéale en post-entraînement ou en collation, même en période de sèche ou de régime contrôlé.`,
+        ingredients: `Dark Cookies & Cream :
+Isolat de protéine de lactosérum (LAIT), éclats de cookies, cacao maigre en poudre, arôme, édulcorants (sucralose, acésulfame K).
+
+Vanille de Madagascar :
+Isolat de protéine de lactosérum (LAIT), arôme, émulsifiant : texturecel, épaississant : gomme de guar, sel, édulcorants : sucralose, acésulfame K.
+
+INFORMATIONS ALLERGÈNES :
+Contient du LAIT. Peut contenir des traces de gluten, œufs, graines de sésame, fruits à coque, céleri, sulfites, soja, arachide.`,
+        usage: `Mélanger 30 g (1 scoop) avec 200–250 ml d’eau ou de lait écrémé.
+À consommer en post-training ou en collation.`,
+        precautions: `Ne pas dépasser la dose recommandée.
+Déconseillé aux femmes enceintes/allaitantes sans avis médical.
+Ne remplace pas une alimentation équilibrée.
+Conserver à température ambiante, à l’abri de l’humidité et de la lumière.`,
+        weight: '1.5kg',
+        servings: '50 doses',
+        highlights: [
+            '79 % de protéines',
+            'Labellisée Volactive®',
+            'Double filtration CFM + UF',
+            'Faible sucre & matières grasses',
+            'Sans lactose – digestion facile'
+        ],
+        nutritionalValues: {
+            portion: "30g",
+            energy: "431kj / 103kcal",
+            energy100g: "1436kj / 343kcal",
+            fats: "0.4g",
+            fats100g: "1.4g",
+            fatsSaturated: "0.15g",
+            fatsSaturated100g: "0.5g",
+            carbs: "1.1g",
+            carbs100g: "3.6g",
+            carbsSugar: "0.75g",
+            carbsSugar100g: "2.5g",
+            protein: "23.7g",
+            protein100g: "79g",
+            salt: "0.15g",
+            salt100g: "0.5g"
+        },
+        flavors: [
+            { name: 'Dark Cookies & Cream', image: '/images/products/french-nutrition/iso-french-protein-dark-cookies.png' },
+            { name: 'Vanille de Madagascar', image: '/images/products/french-nutrition/iso-french-protein-vanille.png' }
+        ],
+        tags: ['isolate', 'premium', 'french'],
+        inStock: true,
+        isNew: true,
+    },
+
+    {
+        id: 'nm-native-whey-isolate',
+        name: 'Native Whey Isolate',
+        brand: 'Nutrimuscle',
+        category: 'proteines',
+        price: 104.95, // Prix confirmé
+        image: '/images/products/nutrimuscle/native-whey-isolate-chocolat-v2.png',
+        description: `100% Isolat de Whey Native directement issue de lait frais de vaches (pas de déchets fromagers).
+        
+Obtenue par microfiltration et ultrafiltration à froid (CFM) pour préserver la structure native des protéines.
+- Sans GMP (GlycoMacroPeptide)
+- Renforcée en Lactase (Tolerase™ L) pour une digestion parfaite
+- Enrichie en Biotiques (Bacillus Coagulans GBI-30) pour la flore intestinale
+- Cacao Bio et Inuline Frutafit® HD (prébiotique)
+
+Idéale pour la récupération musculaire, le régime kéto et les végétariens.`,
+        ingredients: `Nature :
+Isolat de protéines sériques natives du lait (WPI) non instantanéisé.
+
+Chocolat :
+Isolat de protéines sériques natives du lait (WPI), cacao maigre en poudre biologique, arômes, inuline Frutafit® HD, Bacillus Coagulans (Ganeden BC30), lactase (Tolerase™ L), édulcorant (Splenda® sucralose).
+
+Allergènes : Lait. Fabriqué dans un atelier utilisant œufs, soja, gluten.`,
+        usage: 'Diluer 30g (deux doseurs) dans 250ml d’eau ou de lait.',
+        weight: '2.25kg',
+        servings: '75 doses',
+        highlights: [
+            '100% Native (Lait frais)',
+            'Ultra-filtrée à froid (CFM)',
+            'Avec Lactase & Probiotiques',
+            'Sans OGM, Sans GMP',
+            'Assimilation ultra-rapide'
+        ],
+        attributes: undefined, // Removed invalid property
+        nutritionalValues: {
+            portion: "30g",
+            energy: "471kj / 111kcal",
+            energy100g: "1571kj / 370kcal",
+            fats: "0.4g",
+            fats100g: "1.45g",
+            fatsSaturated: "0.1g",
+            fatsSaturated100g: "0.31g",
+            carbs: "2.1g",
+            carbs100g: "7.2g",
+            carbsSugar: "1.6g",
+            carbsSugar100g: "5.58g",
+            protein: "24.3g",
+            protein100g: "81.2g", // Moyenne chocolat
+            salt: "0g",
+            salt100g: "<0.01g"
+        },
+        flavors: [
+            { name: 'Chocolat', image: '/images/products/nutrimuscle/native-whey-isolate-chocolat-v2.png' },
+            { name: 'Vanille', image: '/images/products/nutrimuscle/native-whey-isolate-vanille.png' },
+            { name: 'Neutre', image: '/images/products/nutrimuscle/native-whey-isolate-neutre.png' }
+        ],
+        tags: ['native', 'isolate', 'premium'],
+        inStock: true,
+        isNew: true,
+    },
+
+    {
+        id: 'nm-native-whey-isolate-1kg',
+        name: 'Native Whey Isolate',
+        brand: 'Nutrimuscle',
+        category: 'proteines',
+        price: 54.90, // Prix estimatif à confirmer
+        image: '/images/products/nutrimuscle/native-whey-isolate-1kg-chocolat.png',
+        description: `100% Isolat de Whey Native directement issue de lait frais de vaches (pas de déchets fromagers).
+        
+Obtenue par microfiltration et ultrafiltration à froid (CFM) pour préserver la structure native des protéines.
+- Sans GMP (GlycoMacroPeptide)
+- Renforcée en Lactase (Tolerase™ L) pour une digestion parfaite
+- Enrichie en Biotiques (Bacillus Coagulans GBI-30) pour la flore intestinale
+- Cacao Bio et Inuline Frutafit® HD (prébiotique)
+
+Idéale pour la récupération musculaire, le régime kéto et les végétariens.`,
+        ingredients: `Nature :
+Isolat de protéines sériques natives du lait (WPI) non instantanéisé.
+
+Chocolat :
+Isolat de protéines sériques natives du lait (WPI), cacao maigre en poudre biologique, arômes, inuline Frutafit® HD, Bacillus Coagulans (Ganeden BC30), lactase (Tolerase™ L), édulcorant (Splenda® sucralose).
+
+Allergènes : Lait. Fabriqué dans un atelier utilisant œufs, soja, gluten.`,
+        usage: 'Diluer 30g (deux doseurs) dans 250ml d’eau ou de lait.',
+        weight: '1kg',
+        servings: '33 doses',
+        highlights: [
+            '100% Native (Lait frais)',
+            'Ultra-filtrée à froid (CFM)',
+            'Avec Lactase & Probiotiques',
+            'Sans OGM, Sans GMP',
+            'Assimilation ultra-rapide'
+        ],
+        nutritionalValues: {
+            portion: "30g",
+            energy: "471kj / 111kcal",
+            energy100g: "1571kj / 370kcal",
+            fats: "0.4g",
+            fats100g: "1.45g",
+            fatsSaturated: "0.1g",
+            fatsSaturated100g: "0.31g",
+            carbs: "2.1g",
+            carbs100g: "7.2g",
+            carbsSugar: "1.6g",
+            carbsSugar100g: "5.58g",
+            protein: "24.3g",
+            protein100g: "81.2g",
+            salt: "0g",
+            salt100g: "<0.01g"
+        },
+        flavors: [
+            { name: 'Chocolat', image: '/images/products/nutrimuscle/native-whey-isolate-1kg-chocolat.png' },
+            { name: 'Vanille', image: '/images/products/nutrimuscle/native-whey-isolate-1kg-vanille.png' },
+            { name: 'Fraise', image: '/images/products/nutrimuscle/native-whey-isolate-1kg-fraise.png' },
+            { name: 'Choco Cookie', image: '/images/products/nutrimuscle/native-whey-isolate-1kg-choco-cookie.png' },
+            { name: 'Neutre', image: '/images/products/nutrimuscle/native-whey-isolate-1kg-neutre.png' },
+        ],
+        tags: ['native', 'isolate', 'premium'],
+        inStock: true,
+        isNew: true,
     },
 
     // French Nutrition

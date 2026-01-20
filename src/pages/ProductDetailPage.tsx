@@ -141,7 +141,7 @@ export default function ProductDetailPage() {
                             <img src={product.image} alt="Default" />
                         </div>
                         {product.flavors?.map((f) => {
-                            if (typeof f === 'object' && f.image) {
+                            if (typeof f === 'object' && f.image && f.image !== product.image) {
                                 return (
                                     <div
                                         key={f.name}
@@ -169,11 +169,15 @@ export default function ProductDetailPage() {
                     <h1 className="product-detail__title">{product.name}</h1>
 
                     <div className="product-detail__weight-badge-container">
-                        <span className="product-detail__weight-badge">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                            1.5 kg
-                        </span>
-                        <span className="product-detail__servings">Soit 50 shakers</span>
+                        {product.weight && (
+                            <span className="product-detail__weight-badge">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                {product.weight}
+                            </span>
+                        )}
+                        {product.servings && (
+                            <span className="product-detail__servings">{product.servings}</span>
+                        )}
                     </div>
 
                     <p className="product-detail__short-desc">
@@ -186,18 +190,26 @@ export default function ProductDetailPage() {
                     </div>
 
                     <ul className="product-detail__highlights">
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
-                            83% de protéines d'isolate de whey
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
-                            Assimilation rapide
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
-                            Conforme à la règlementation Anti-dopage
-                        </li>
+                        {product.highlights ? (
+                            product.highlights.map((highlight, index) => (
+                                <li key={index}>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
+                                    {highlight}
+                                </li>
+                            ))
+                        ) : (
+                            // Default static highlights if none provided (backward compatibility)
+                            <>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
+                                    Haute qualité garantie
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
+                                    Expédition rapide
+                                </li>
+                            </>
+                        )}
                     </ul>
 
                     {/* Flavor Selection */}
@@ -321,17 +333,40 @@ export default function ProductDetailPage() {
                         <div className="tab-panel">
                             {product.nutritionalValues && (
                                 <div style={{ marginBottom: '2rem' }}>
-                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>Apports nutritionnels (pour {product.nutritionalValues.portion})</h4>
+                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
+                                        Apports nutritionnels {product.nutritionalValues.energy100g ? '' : `(pour ${product.nutritionalValues.portion})`}
+                                    </h4>
                                     <table className="nutrition-table" style={{ width: '100%', maxWidth: '600px', borderCollapse: 'collapse', color: 'var(--color-text-secondary)' }}>
-                                        <tbody>
-                                            <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy}</td></tr>
-                                            <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats}</td></tr>
-                                            <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated}</td></tr>
-                                            <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs}</td></tr>
-                                            <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar}</td></tr>
-                                            <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein}</td></tr>
-                                            <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt}</td></tr>
-                                        </tbody>
+                                        {product.nutritionalValues.energy100g ? (
+                                            <>
+                                                <thead>
+                                                    <tr style={{ borderBottom: '1px solid var(--glass-border)', textAlign: 'right' }}>
+                                                        <th style={{ textAlign: 'left', paddingBottom: '8px' }}>Valeurs</th>
+                                                        <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour 100g</th>
+                                                        <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour {product.nutritionalValues.portion}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy}</td></tr>
+                                                    <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats}</td></tr>
+                                                    <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated}</td></tr>
+                                                    <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs}</td></tr>
+                                                    <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar}</td></tr>
+                                                    <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein}</td></tr>
+                                                    <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt}</td></tr>
+                                                </tbody>
+                                            </>
+                                        ) : (
+                                            <tbody>
+                                                <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy}</td></tr>
+                                                <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats}</td></tr>
+                                                <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated}</td></tr>
+                                                <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs}</td></tr>
+                                                <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar}</td></tr>
+                                                <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein}</td></tr>
+                                                <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt}</td></tr>
+                                            </tbody>
+                                        )}
                                     </table>
                                 </div>
                             )}

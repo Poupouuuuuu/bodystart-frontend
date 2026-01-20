@@ -200,9 +200,15 @@
     transition: color 0.3s ease;
 }
 
-.product-card:hover .product-card__title {
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+color: #fff;
+text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.product-card__weight {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+    opacity: 0.8;
 }
 
 /* ============================================= 

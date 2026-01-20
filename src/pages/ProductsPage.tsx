@@ -13,7 +13,7 @@ export default function ProductsPage() {
 
     const [selectedBrand, setSelectedBrand] = useState<string | null>(null)
     const [sortBy, setSortBy] = useState('default')
-    const [priceRange, setPriceRange] = useState<[number, number]>([0, 100])
+    const [priceRange, setPriceRange] = useState<[number, number]>([0, 200])
 
     const currentCategory = categories.find(c => c.id === category)
 
@@ -137,7 +137,7 @@ export default function ProductsPage() {
                             <input
                                 type="range"
                                 min="0"
-                                max="100"
+                                max="200"
                                 value={priceRange[1]}
                                 onChange={(e) => setPriceRange([0, Number(e.target.value)])}
                                 className="price-slider"

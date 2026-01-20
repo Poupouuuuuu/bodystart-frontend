@@ -89,6 +89,9 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                 <div className="product-card__content">
                     <span className="product-card__brand">{product.brand}</span>
                     <h3 className="product-card__title">{product.name}</h3>
+                    {product.weight && (
+                        <span className="product-card__weight">{product.weight}</span>
+                    )}
 
                     <div className="product-card__footer">
                         <div className="product-card__pricing">
