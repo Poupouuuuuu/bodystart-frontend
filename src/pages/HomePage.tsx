@@ -47,17 +47,6 @@ export default function HomePage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <div className="hero__badge">
-                            <span className="hero__badge-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
-                                    <rect x="1" y="3" width="15" height="13" />
-                                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                                    <circle cx="5.5" cy="18.5" r="2.5" />
-                                    <circle cx="18.5" cy="18.5" r="2.5" />
-                                </svg>
-                            </span>
-                            Livraison gratuite à partir de 80€
-                        </div>
                         <h1>
                             <span className="hero__title-main">BODYSTART</span>
                             <span className="hero__title-accent">NUTRITION</span>

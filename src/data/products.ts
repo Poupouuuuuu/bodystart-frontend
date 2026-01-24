@@ -48,8 +48,9 @@ export const categories = [
     { id: 'vitamines', name: 'Vitamines & Minéraux', icon: '', image: '/images/categories/vitamines.png' },
     { id: 'omega3', name: 'Oméga-3', icon: '', image: '/images/categories/omega3.png' },
     { id: 'pre-workout', name: 'Pré-Workout', icon: '', image: '/images/categories/pre-workout.png' },
-    { id: 'bruleurs', name: 'Brûleurs & Carnitine', icon: '', image: '/images/categories/bruleurs.png' },
-    { id: 'bcaa', name: 'BCAA & Acides Aminés', icon: '', image: '/images/categories/bcaa.png' },
+    { id: 'bruleurs', name: 'Brûleurs de Graisses', icon: '', image: '/images/categories/bruleurs.png' },
+    { id: 'bcaa', name: 'Acides Aminés', icon: '', image: '/images/categories/bcaa.png' },
+    { id: 'snacks', name: 'Snacks & Barres', icon: '🍫', image: '' },
 ]
 
 export const brands = [

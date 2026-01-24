@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCart } from '../context/CartContext'
@@ -21,7 +21,26 @@ export default function Header() {
     const cartCount = totalItems
     const wishlistCount = wishlist.length
 
+    const userMenuRef = useRef<HTMLDivElement>(null)
+
     const isActive = (path: string) => location.pathname === path
+
+    // Close user menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+                setIsUserMenuOpen(false)
+            }
+        }
+
+        if (isUserMenuOpen) {
+            document.addEventListener('mousedown', handleClickOutside)
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [isUserMenuOpen])
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -170,18 +189,23 @@ export default function Header() {
                     {/* User Account / Login */}
                     {isAuthenticated ? (
                         <div
+                            ref={userMenuRef}
                             className="header__dropdown"
                             onMouseEnter={() => setIsUserMenuOpen(true)}
                             onMouseLeave={() => setIsUserMenuOpen(false)}
                         >
-                            <Link to="/dashboard" className="header__action-btn header__user-btn">
+                            <button
+                                className="header__action-btn header__user-btn"
+                                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                aria-label="Menu utilisateur"
+                            >
                                 <span className="user-icon">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                         <circle cx="12" cy="7" r="4" />
                                     </svg>
                                 </span>
-                            </Link>
+                            </button>
 
                             <AnimatePresence>
                                 {isUserMenuOpen && (

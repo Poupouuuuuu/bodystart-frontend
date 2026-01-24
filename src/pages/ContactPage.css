@@ -3,7 +3,8 @@
    ============================================= */
 
 .contact-page {
-    padding: var(--space-4xl) 0;
+    padding-top: 20px;
+    padding-bottom: var(--space-4xl);
     min-height: 80vh;
 }
 

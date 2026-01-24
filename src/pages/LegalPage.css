@@ -1,6 +1,6 @@
 /* Main container for legal pages */
 .legal-page {
-    padding-top: 100px;
+    padding-top: 20px;
     /* Space for fixed header (80px) + 20px breathing room */
     padding-bottom: var(--space-4xl);
     min-height: 80vh;
