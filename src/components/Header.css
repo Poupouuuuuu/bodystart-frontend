@@ -35,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100px;
+    height: 70px;
 }
 
 /* ============================================= 
@@ -47,9 +47,15 @@
     gap: 0;
     text-decoration: none;
     font-family: var(--font-display);
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     line-height: 1;
     letter-spacing: 0.05em;
+}
+
+.header__logo img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
 }
 
 .header__logo-text {
@@ -397,14 +403,31 @@
 
 @media (max-width: 640px) {
     .header__container {
-        height: 70px;
+        height: 60px;
     }
 
     .header__logo {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
+    }
+
+    .header__logo img {
+        height: 40px;
     }
 
     .header__mobile-categories {
         grid-template-columns: 1fr;
+    }
+
+    /* Optimize header actions for mobile */
+    .header__actions {
+        gap: 8px;
+        /* Reduce gap */
+    }
+
+    /* Hide User, Login & Wishlist on mobile (available in menu) */
+    .header__action-btn[aria-label="Favoris"],
+    .header__action-btn[aria-label="Se connecter"],
+    .header__user-btn {
+        display: none !important;
     }
 }

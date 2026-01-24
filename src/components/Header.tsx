@@ -39,7 +39,7 @@ export default function Header() {
             <div className="header__container container">
                 {/* Logo */}
                 <Link to="/" className="header__logo">
-                    <img src="/logo.png" alt="Bodystart Nutrition" style={{ maxHeight: '75px' }} />
+                    <img src="/logo.png" alt="Bodystart Nutrition" />
                 </Link>
 
                 {/* Desktop Navigation */}

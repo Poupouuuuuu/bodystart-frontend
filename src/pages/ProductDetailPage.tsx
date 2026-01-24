@@ -373,7 +373,7 @@ export default function ProductDetailPage() {
 
                             {product.aminogram && (
                                 <div>
-                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>Aminogramme Moyen (Pour 100 g)</h4>
+                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>Aminogramme Moyen (Pour {product.aminogramPortion || '100 g'})</h4>
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
                                         {product.aminogram.map((amino, idx) => (
                                             <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>

@@ -3,7 +3,7 @@
    ============================================= */
 
 .products-page {
-    padding-top: 80px;
+
     min-height: 100vh;
     background:
         radial-gradient(circle at 50% 0%, rgba(74, 124, 35, 0.05) 0%, transparent 60%),
@@ -13,8 +13,8 @@
 /* === Header Section === */
 .products-page__header {
     position: relative;
-    padding: var(--space-20) 0 var(--space-12);
-    margin-bottom: var(--space-12);
+    padding: var(--space-10) 0 var(--space-6);
+    margin-bottom: var(--space-8);
     text-align: center;
     overflow: hidden;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);

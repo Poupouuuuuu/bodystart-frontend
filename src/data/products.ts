@@ -36,6 +36,7 @@ export interface Product {
         label: string
         value: string
     }[]
+    aminogramPortion?: string
     inStock: boolean
     isBestseller?: boolean
     isNew?: boolean
@@ -154,6 +155,90 @@ Les jours de repos : prendre 1 mesure de 30g dans 150 à 200ml d’eau en encas 
         usage: '10g avant ou pendant l\'entraînement.',
         weight: '500g',
         inStock: true,
+    },
+    {
+        id: 'ef-creatine-pro-zero',
+        name: 'Creatine Pro Zero',
+        brand: 'Eric Favre',
+        category: 'creatine',
+        price: 24.90,
+        image: '/images/products/eric-favre/creatine-pro-zero.png',
+        description: 'Creatine Pro Zero est une créatine monohydrate micronisée (200 Mesh) pure, conçue pour les athlètes exigeants. Formule Vegan, sans aspartame et sans conservateurs pour une performance optimale.',
+        ingredients: 'Créatine monohydrate micronisée.',
+        usage: 'Prendre 1 mesure (3g) diluée dans 200-250ml d\'eau, de préférence après l\'entraînement.',
+        precautions: 'Se conformer aux conseils d\'utilisation. Tenir hors de portée des jeunes enfants. À consommer dans le cadre d\'une alimentation équilibrée et d\'un mode de vie sain.',
+        weight: '300g',
+        servings: '100 doses',
+        highlights: [
+            'Créatine Monohydrate Micronisée',
+            '200 Mesh - Dissolution optimale',
+            'Vegan Friendly',
+            'Sans Aspartame',
+            'Sans Conservateurs'
+        ],
+        nutritionalValues: {
+            portion: "3g",
+            energy: "0kj / 0kcal",
+            fats: "0g",
+            fatsSaturated: "0g",
+            carbs: "0g",
+            carbsSugar: "0g",
+            protein: "0g",
+            salt: "0g"
+        },
+        tags: ['vegan', 'creatine', 'micronized'],
+        inStock: true,
+        isNew: true,
+    },
+    {
+        id: 'ef-clear-pro-creatine',
+        name: 'Clear Pro Creatine',
+        brand: 'Eric Favre',
+        category: 'creatine',
+        price: 29.90,
+        image: '/images/products/eric-favre/clear-pro-creatine-peche.png',
+        description: `Clear Pro Creatine est une créatine monohydrate idéale pour les sportifs à la recherche de performance. Naturellement présente dans l’organisme et principalement stockée dans les muscles squelettiques, la créatine est un dérivé d’acides aminés.
+        
+Elle est reconnue pour améliorer les capacités physiques en cas de séries successives d’exercices très intenses de courte durée (effet bénéfique obtenu par la consommation journalière de 3 g de créatine).
+
+Clear Pro Creatine offre une solubilité optimale, favorisant une assimilation rapide. Sa texture claire et sa dissolution parfaite permettent une prise agréable, sans grumeaux ni dépôt.`,
+        ingredients: `GOÛT ANANAS :
+CRÉATINE MONOHYDRATE ; ACIDIFIANT : ACIDE CITRIQUE ; ARÔME (3,7%) ; ÉDULCORANT : SUCRALOSE ; COLORANT : BÊTA-CAROTÈNE.
+
+Produit dans un atelier qui utilise des céréales contenant du gluten, des œufs, des graines de sésames, des fruits à coques, du céleri, des sulfites, du soja, du lait, des arachides, du poisson et des crustacés.`,
+        usage: 'Ajouter une mesure (3,6 g) dans 200 à 250 mL d’eau froide. Mélangez énergétiquement et dégustez.',
+        precautions: `Ne pas dépasser la dose journalière recommandée. Tenir hors de portée des jeunes enfants. À utiliser dans le cadre d’une alimentation variée et d’un mode de vie sain. Ne pas utiliser pendant la grossesse, par des enfants, ou pendant des périodes prolongées sans l’avis d’un médecin. Boire au moins 2 L d’eau par jour. À conserver à l’abri de la chaleur, de la lumière et de l’humidité.`,
+        weight: '300g',
+        servings: '83 doses',
+        highlights: [
+            'Créatine Monohydrate (3024mg/dose)',
+            'Dont Créatine Pure (2659mg)',
+            'Solubilité Optimale (Clear)',
+            'Texture "Jus de Fruit"',
+            'Sans Aspartame'
+        ],
+        nutritionalValues: {
+            portion: "3.6g",
+            energy: "0kj / 0kcal",
+            fats: "0g",
+            fatsSaturated: "0g",
+            carbs: "0g",
+            carbsSugar: "0g",
+            protein: "0g",
+            salt: "0g"
+        },
+        aminogram: [
+            { label: 'Créatine Monohydrate', value: '3024 mg' },
+            { label: 'Dont Créatine', value: '2659 mg' }
+        ],
+        aminogramPortion: '3.6g',
+        flavors: [
+            { name: 'Pêche', image: '/images/products/eric-favre/clear-pro-creatine-peche.png' },
+            { name: 'Ananas', image: '/images/products/eric-favre/clear-pro-creatine-ananas.png' }
+        ],
+        tags: ['creatine', 'clear', 'fruity', 'summer'],
+        inStock: true,
+        isNew: true,
     },
 
     // NutriMuscle
@@ -469,7 +554,7 @@ Allergènes : Lait. Fabriqué dans un atelier utilisant œufs, soja, gluten.`,
             'Sans OGM, Sans GMP',
             'Assimilation ultra-rapide'
         ],
-        attributes: undefined, // Removed invalid property
+
         nutritionalValues: {
             portion: "30g",
             energy: "471kj / 111kcal",
