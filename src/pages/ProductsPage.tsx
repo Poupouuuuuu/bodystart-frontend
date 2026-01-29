@@ -1,10 +1,53 @@
 import { useState, useMemo } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import ProductCard from '../components/ProductCard'
 import type { Product } from '../data/products'
 import { products, categories, brands, getProductsByCategory } from '../data/products'
 import './ProductsPage.css'
+
+const FilterSection = ({ title, activeLabel, isOpen, onToggle, children }: { title: string, activeLabel?: string, isOpen: boolean, onToggle: () => void, children: React.ReactNode }) => (
+    <div className="filter-section">
+        <div onClick={onToggle} style={{ cursor: 'pointer', marginBottom: isOpen ? '1rem' : '0', transition: 'margin 0.3s ease' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
+                {title}
+                <motion.span
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M6 9l6 6 6-6" />
+                    </svg>
+                </motion.span>
+            </h3>
+            {activeLabel && (
+                <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="filter-active-label"
+                    style={{ fontSize: '0.85rem', color: '#88cc33', fontWeight: 500 }}
+                >
+                    {activeLabel}
+                </motion.div>
+            )}
+        </div>
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    style={{ overflow: 'hidden' }}
+                >
+                    <div>
+                        {children}
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    </div>
+)
 
 export default function ProductsPage() {
     const { category } = useParams()
@@ -12,10 +55,25 @@ export default function ProductsPage() {
     const searchQuery = searchParams.get('search') || ''
 
     const [selectedBrand, setSelectedBrand] = useState<string | null>(null)
+    const [selectedTag, setSelectedTag] = useState<string | null>(null)
     const [sortBy, setSortBy] = useState('default')
     const [priceRange, setPriceRange] = useState<[number, number]>([0, 200])
 
+    const [expandedSections, setExpandedSections] = useState({
+        categories: false,
+        brands: false,
+        price: true
+    })
+
+    const toggleSection = (section: keyof typeof expandedSections) => {
+        setExpandedSections(prev => ({
+            ...prev,
+            [section]: !prev[section]
+        }))
+    }
+
     const currentCategory = categories.find(c => c.id === category)
+    const currentBrand = brands.find(b => b.id === selectedBrand)
 
     const filteredProducts = useMemo(() => {
         let result: Product[] = category ? getProductsByCategory(category) : products
@@ -39,6 +97,11 @@ export default function ProductsPage() {
         // Filter by price
         result = result.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1])
 
+        // Filter by tag (sub-category)
+        if (selectedTag) {
+            result = result.filter(p => p.tags && p.tags.includes(selectedTag))
+        }
+
         // Sort
         switch (sortBy) {
             case 'price-asc':
@@ -53,7 +116,7 @@ export default function ProductsPage() {
         }
 
         return result
-    }, [category, selectedBrand, sortBy, priceRange, searchQuery])
+    }, [category, selectedBrand, sortBy, priceRange, searchQuery, selectedTag])
 
     return (
         <div className="products-page">
@@ -82,8 +145,12 @@ export default function ProductsPage() {
             <div className="products-page__content container">
                 {/* Sidebar Filters */}
                 <aside className="products-page__sidebar">
-                    <div className="filter-section">
-                        <h3>Catégories</h3>
+                    <FilterSection
+                        title="Catégories"
+                        activeLabel={currentCategory?.name || "Tous les produits"}
+                        isOpen={expandedSections.categories}
+                        onToggle={() => toggleSection('categories')}
+                    >
                         <ul className="filter-list">
                             <li>
                                 <a
@@ -105,10 +172,14 @@ export default function ProductsPage() {
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </FilterSection>
 
-                    <div className="filter-section">
-                        <h3>Marques</h3>
+                    <FilterSection
+                        title="Marques"
+                        activeLabel={currentBrand?.name || "Toutes les marques"}
+                        isOpen={expandedSections.brands}
+                        onToggle={() => toggleSection('brands')}
+                    >
                         <ul className="filter-list">
                             <li>
                                 <button
@@ -129,10 +200,13 @@ export default function ProductsPage() {
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </FilterSection>
 
-                    <div className="filter-section">
-                        <h3>Prix</h3>
+                    <FilterSection
+                        title="Prix"
+                        isOpen={expandedSections.price}
+                        onToggle={() => toggleSection('price')}
+                    >
                         <div className="price-range">
                             <input
                                 type="range"
@@ -147,13 +221,43 @@ export default function ProductsPage() {
                                 <span>{priceRange[1]}€</span>
                             </div>
                         </div>
-                    </div>
+                    </FilterSection>
                 </aside>
 
                 {/* Products Grid */}
                 <div className="products-page__main">
-                    {/* Sort bar */}
+                    {/* Sort and Filters */}
                     <div className="products-page__toolbar">
+                        {/* Sub-filters (Tags) */}
+                        {category === 'proteines' && (
+                            <div className="products-page__filters">
+                                <button
+                                    className={`filter-chip ${!selectedTag ? 'active' : ''}`}
+                                    onClick={() => setSelectedTag(null)}
+                                >
+                                    Tout
+                                </button>
+                                <button
+                                    className={`filter-chip ${selectedTag === 'isolate' ? 'active' : ''}`}
+                                    onClick={() => setSelectedTag('isolate')}
+                                >
+                                    Isolate (ISO)
+                                </button>
+                                <button
+                                    className={`filter-chip ${selectedTag === 'gainer' ? 'active' : ''}`}
+                                    onClick={() => setSelectedTag('gainer')}
+                                >
+                                    Gainers
+                                </button>
+                                <button
+                                    className={`filter-chip ${selectedTag === 'whey' ? 'active' : ''}`}
+                                    onClick={() => setSelectedTag('whey')}
+                                >
+                                    Whey
+                                </button>
+                            </div>
+                        )}
+
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}

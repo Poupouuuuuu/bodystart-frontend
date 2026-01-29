@@ -6,6 +6,7 @@ export interface Product {
     price: number
     oldPrice?: number
     image: string
+    images?: string[]
     description: string
     ingredients?: string
     usage?: string
@@ -13,6 +14,7 @@ export interface Product {
     weight?: string
     servings?: string
     highlights?: string[]
+    keywords?: string[]
     tags?: string[]
     flavors?: (string | { name: string; image?: string })[]
     nutritionalValues?: {
@@ -37,6 +39,10 @@ export interface Product {
         value: string
     }[]
     aminogramPortion?: string
+    attributes?: {
+        label: string
+        value: string
+    }[]
     inStock: boolean
     isBestseller?: boolean
     isNew?: boolean
@@ -58,6 +64,7 @@ export const brands = [
     { id: 'nutrimuscle', name: 'NutriMuscle' },
     { id: 'coregenic', name: 'Coregenic' },
     { id: 'french-nutrition', name: 'French Nutrition' },
+    { id: 'mutant', name: 'Mutant' },
 ]
 
 export const products: Product[] = [
@@ -130,33 +137,7 @@ Les jours de repos : prendre 1 mesure de 30g dans 150 à 200ml d’eau en encas 
     },
 
 
-    {
-        id: 'ef-creatine-mono',
-        name: 'Créatine Monohydrate Pure',
-        brand: 'Eric Favre',
-        category: 'creatine',
-        price: 19.90,
-        image: 'https://images.unsplash.com/photo-1614859324967-bdf413c05277?w=400',
-        description: 'Créatine monohydrate pure à 99.9%. Améliore les performances et la force musculaire.',
-        ingredients: 'Créatine monohydrate 100%.',
-        usage: '3 à 5g par jour, de préférence après l\'entraînement avec des glucides.',
-        weight: '500g',
-        inStock: true,
-        isBestseller: true,
-    },
-    {
-        id: 'ef-bcaa-811',
-        name: 'BCAA 8:1:1',
-        brand: 'Eric Favre',
-        category: 'bcaa',
-        price: 24.90,
-        image: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400',
-        description: 'BCAA avec ratio 8:1:1 pour une récupération optimale. Enrichi en vitamine B6.',
-        ingredients: 'L-Leucine, L-Isoleucine, L-Valine, Vitamine B6.',
-        usage: '10g avant ou pendant l\'entraînement.',
-        weight: '500g',
-        inStock: true,
-    },
+
     {
         id: 'ef-creatine-pro-zero',
         name: 'Creatine Pro Zero',
@@ -244,33 +225,7 @@ Produit dans un atelier qui utilise des céréales contenant du gluten, des œuf
 
     // NutriMuscle
 
-    {
-        id: 'nm-omega3',
-        name: 'Oméga-3 Epax® Premium',
-        brand: 'NutriMuscle',
-        category: 'omega3',
-        price: 29.90,
-        image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400',
-        description: 'Oméga-3 ultra-concentrés qualité Epax®. EPA/DHA haute assimilation.',
-        ingredients: 'Huile de poisson concentrée (Epax®), gélatine de poisson, glycérol, vitamine E.',
-        usage: '2 capsules par jour avec un repas.',
-        weight: '120 capsules',
-        inStock: true,
-        isBestseller: true,
-    },
-    {
-        id: 'nm-vitamined',
-        name: 'Vitamine D3 2000 UI',
-        brand: 'NutriMuscle',
-        category: 'vitamines',
-        price: 14.90,
-        image: 'https://images.unsplash.com/photo-1550572017-edd951b55104?w=400',
-        description: 'Vitamine D3 naturelle issue de lichen. Parfaite pour l\'immunité et les os.',
-        ingredients: 'Vitamine D3 (cholécalciférol), huile de coco.',
-        usage: '1 capsule par jour avec un repas.',
-        weight: '120 capsules',
-        inStock: true,
-    },
+
 
     // Coregenic
     {
@@ -391,21 +346,123 @@ Isolat de protéines de lactosérum (lait), concentré de protéines de lactosé
         inStock: true,
         isNew: true,
     },
+
     {
-        id: 'cg-preworkout',
-        name: 'Core Pump Pré-Workout',
+        id: 'cg-final-mass',
+        name: 'Final Mass',
         brand: 'Coregenic',
-        category: 'pre-workout',
-        price: 32.90,
-        image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400',
-        description: 'Formule explosive pour des entraînements intenses. Caféine + Beta-Alanine + Citrulline.',
-        ingredients: 'L-Citrulline, Beta-Alanine, Caféine anhydre, Taurine, Vitamines B.',
-        usage: '1 dose 20-30 minutes avant l\'entraînement.',
-        weight: '300g',
+        category: 'proteines',
+        price: 69.90,
+        image: '/images/products/coregenic/final-mass.png',
+        description: `Final Mass de Corgenic est un lean gainer avec une teneur en glucides et calories plus faible qu’un hard gainer. De ce fait, il est plus facile à consommer toute l’année même en période de régime. La teneur en protéines est également plus élevée pour combler les apports protéiques journaliers.
+
+Pour une prise de masse sèche, le Lean Gainer est un complément alimentaire idéal puisqu’il est suffisamment riche en protéines, glucides et calories pour augmenter de manière contrôlée vos apports caloriques.
+
+Sa formule multi-sources (Whey, Isolat, Caséine) assure une diffusion graduelle des acides aminés, tandis que son complexe glucidique (Avoine, Orge, Maltodextrine) fournit une énergie durable de qualité.`,
+        ingredients: `Farine d'avoine (gluten), maltodextrine, concentré de protéines de lactosérum (lait), farine d'orge complète (gluten), caséine micellaire (lait), isolat de protéines de lactosérum (lait), arôme, poudre d'huile de tournesol, taurine, l-glutamine, édulcorants (sucralose, acesulfame-K), colorant (caramel au sulfite d'ammonium), citrate de zinc, cholécalciférol (vitamine D3), cyanocobalamine (vitamine B12).
+
+Allergènes : Peut contenir des traces de gluten, oeuf, arachides, fruits à coque, soja, noix, poissons, crustacés et céleri.`,
+        usage: `Mélanger 2 dosettes (160g) dans 150ml à 200ml d'eau fraîche.
+        
+Consommer 1 à 2 fois par jour (matin/après-midi et après l'entraînement).
+Les jours de repos : prendre une dose le matin et une dose l'après-midi.`,
+        precautions: 'Conserver dans un endroit frais et sec à l\'abri de la lumière. Tenir hors de portée des enfants. Ne pas dépasser la dose journalière recommandée.',
+        weight: '3.2kg', // 3200g
+        servings: '20 doses (de 160g)',
+        highlights: [
+            'Prise de masse sèche (Lean Gainer)',
+            '48g Protéines / 96g Glucides',
+            'Enrichi en BCAA, Glutamine, Taurine',
+            'Source de Zinc & Vitamines'
+        ],
+        nutritionalValues: {
+            portion: "160g",
+            energy: "2611 kJ / 624 kcal",
+            fats: "5.3g",
+            fatsSaturated: "1.9g",
+            carbs: "96g",
+            carbsSugar: "6.5g",
+            protein: "48g",
+            salt: "0.26g"
+        },
+        aminogramPortion: "160g",
+        aminogram: [
+            { label: 'Acide Aspartique', value: '5.25g' },
+            { label: 'Alanine', value: '2.45g' },
+            { label: 'Arginine', value: '1.06g' },
+            { label: 'Cystéine', value: '0.98g' },
+            { label: 'Glutamine', value: '9.53g' },
+            { label: 'Glycine', value: '0.72g' },
+            { label: 'Histidine', value: '0.84g' },
+            { label: 'Isoleucine', value: '2.91g' },
+            { label: 'Leucine', value: '4.8g' },
+            { label: 'Lysine', value: '4.28g' },
+            { label: 'Méthionine', value: '0.97g' },
+            { label: 'Phénylalanine', value: '1.53g' },
+            { label: 'Proline', value: '2.71g' },
+            { label: 'Sérine', value: '2.31g' },
+            { label: 'Thréonine', value: '2.94g' },
+            { label: 'Tryptophane', value: '0.64g' },
+            { label: 'Tyrosine', value: '1.35g' },
+            { label: 'Valine', value: '2.73g' }
+        ],
+        flavors: [
+            { name: 'Chocolat', image: '/images/products/coregenic/final-mass.png' },
+            { name: 'Vanille', image: '/images/products/coregenic/final-mass-vanilla.png' },
+            { name: 'Cookie Dough', image: '/images/products/coregenic/final-mass-cookie.png' },
+            { name: 'Caramel Latte', image: '/images/products/coregenic/final-mass-caramel.png' },
+        ],
+        tags: ['gainer', 'mass', 'protein', 'oat', 'zinc', 'vitamins'],
         inStock: true,
         isNew: true,
     },
 
+
+    {
+        id: 'mutant-mass',
+        name: 'Mutant Mass',
+        brand: 'Mutant',
+        category: 'proteines',
+        price: 69.90,
+        image: '/images/products/mutant/mutant-mass-chocolate.png',
+        description: `Un gainer sérieux conçu par des personnes qui s’y connaissent en bodybuilding.
+Mutant Mass est conçu par Mutant, une entreprise spécialisée en bodybuilding, pour vous aider à augmenter votre volume et votre masse musculaire.
+Chaque portion de Mutant Mass comprend 1100 kcal, 56 g de protéines pour soutenir la croissance musculaire et 196 g de glucides.
+Mutant Mass comprend également un mélange de graisses alimentaires : triglycérides à chaîne moyenne (TCM), avocat, graines de lin, graines de courge et huile de tournesol.
+
+Pour augmenter son volume, rien de tel que Mutant Mass !`,
+        ingredients: `(carbo blend, amidon de maïs cireux (maltodextrine), amidon d'orge, patate douce, flocons d'avoine), mutant mass pro-matrix (concentré de protéines de lactosérum (lait), hydrolysat de protéines de lactosérum (lait), isolat de protéines de whey (lait), protéine de caséine micellaire (lait), concentré de protéines de lait, isolat de protéines de lactosérum), lipid foods blend (huile de coco fractionnée (MCT), avocat, graines de lin, graines de courge, huile de tournesol, épaississants, graines de soja, pois, gomme guar), cacao, arômes, sel, édulcorant (sucralose), émulsifiant (lécithine de tournesol), enzymes (lactase, protéase), extrait de cannelle (Cinnulin PF®), cerise acidulée.
+
+Allergènes : Contient du lait, soja, blé, orge, avoine. Peut contenir des traces de poissons, crustacés, œufs, arachides, fruits à coque.`,
+        usage: 'Ajoutez 750-1000 ml d\'eau dans un mixeur ou un grand shaker, puis ajoutez 4 mesures de Mutant Mass (280g). Mixez ou secouez pendant 20-30 secondes. À consommer de préférence après l\'entraînement ou en collation.',
+        precautions: 'Conserver dans un endroit frais et sec. Tenir hors de portée des enfants.',
+        weight: '6.8 kg',
+        servings: '24 doses',
+        flavors: [
+            { name: 'Triple Chocolate', image: '/images/products/mutant/mutant-mass-chocolate.png' },
+            { name: 'Vanilla Ice Cream', image: '/images/products/mutant/mutant-mass-vanilla.png' },
+            { name: 'Cookies & Cream', image: '/images/products/mutant/mutant-mass-cookies.png' }
+        ],
+        tags: ['gainer', 'mass', 'protein', 'calories'],
+        inStock: true,
+        isNew: true,
+        nutritionalValues: {
+            portion: "280g (4 mesures)",
+            energy: "4600 kJ / 1100 kcal",
+            fats: "12g",
+            fatsSaturated: "6.0g",
+            carbs: "192g",
+            carbsSugar: "18g",
+            protein: "56g",
+            salt: "1.45g"
+        },
+        highlights: [
+            '1100 calories par portion',
+            '56g de protéines de qualité',
+            '196g de glucides complexes',
+            'Mélange de graisses saines (MCT, avocat, lin)'
+        ]
+    },
 
     {
         id: 'fn-iso-protein-900',
@@ -646,58 +703,500 @@ Allergènes : Lait. Fabriqué dans un atelier utilisant œufs, soja, gluten.`,
     },
 
     // French Nutrition
+
     {
-        id: 'fn-multivit',
-        name: 'MultiVit Pro',
+        id: 'fn-creatine-micronisee',
+        name: 'Créatine Micronisée',
         brand: 'French Nutrition',
-        category: 'vitamines',
-        price: 18.90,
-        image: 'https://images.unsplash.com/photo-1559757175-7cb037867bd0?w=400',
-        description: 'Complexe multivitaminé complet. 24 vitamines et minéraux essentiels.',
-        ingredients: 'Vitamines A, C, D, E, K, B1, B2, B3, B5, B6, B8, B9, B12, Zinc, Magnésium, Fer, Sélénium...',
-        usage: '1 comprimé par jour au petit-déjeuner.',
-        weight: '90 comprimés',
+        category: 'creatine',
+        price: 32.90,
+        image: '/images/products/french-nutrition/creatine-micronisee.png',
+        description: `La Créatine Monohydrate de La French Nutrition est un composé naturellement présent dans l’organisme, principalement dans les muscles.
+
+La créatine améliore les capacités physiques en cas de séries successives d’exercices très intenses et de courte durée (bénéfice obtenu avec une consommation de 3 g par jour).
+
+Sa micronisation à 200 mesh garantit une meilleure solubilité, permettant une absorption optimale par l’organisme.`,
+        ingredients: `Ingrédient : Créatine Monohydrate (100%).
+
+INFORMATIONS ALLERGÈNES :
+Ce produit peut contenir des traces de lait, céréales contenant du gluten, œufs, graines de sésame, fruits à coque, céleri, sulfites, soja, arachides, crustacés.`,
+        usage: `Mélangez une portion de 3 g dans un shaker de 200 ml de votre boisson préférée après un exercice physique ou avant les repas. À consommer directement après préparation.`,
+        precautions: `- Ne pas dépasser la dose journalière recommandée.
+- À utiliser dans le cadre d’un mode de vie sain et d’une alimentation équilibrée.
+- Déconseillé aux femmes enceintes ou allaitantes sans avis médical.
+- Tenir hors de portée des jeunes enfants.
+- Réservé aux adultes.`,
+        weight: '300g',
+        servings: '100 doses',
+        highlights: [
+            '100% Créatine Monohydrate',
+            'Micronisée 200 Mesh (Top Solubilité)',
+            'Qualité Pharmaceutique',
+            'Explosivité & Force',
+            'Sans goût (Neutre)'
+        ],
+        attributes: [
+            { label: 'Créatine', value: '3000mg' },
+            { label: 'Micronisation', value: '200 Mesh' }
+        ],
+        nutritionalValues: {
+            portion: "3g",
+            energy: "0 kJ / 0 kcal",
+            fats: "0g",
+            fatsSaturated: "0g",
+            carbs: "0g",
+            carbsSugar: "0g",
+            protein: "0g",
+            salt: "0g"
+        },
+        flavors: [
+            { name: 'Neutre', image: '/images/products/french-nutrition/creatine-micronisee.png' }
+        ],
+        tags: ['creatine', 'performance', 'french', 'micronized', 'force'],
         inStock: true,
+        isNew: true,
     },
     {
-        id: 'fn-carnitine',
-        name: 'L-Carnitine 3000',
-        brand: 'French Nutrition',
+        id: 'ef-vitamino-24',
+        name: 'Vitamino+ 24 (Cure Flash)',
+        brand: 'Eric Favre',
+        category: 'vitamines',
+        price: 11.90,
+        image: '/images/categories/vitamines.png',
+        description: `Vitamino+ 24 est un BOOSTER sous forme d'unidose de 10ml. La cure flash de 10 jours apporte chaque matin 24 ingrédients puissants pour un effet "coup de fouet" immédiat.
+
+Idéal pour :
+- Une période de grosse fatigue
+- Avant une compétition ou une période d'examen
+- Un changement de saison difficile
+
+Vitamino 24 + Eric Favre aide :
+- à réduire votre fatigue
+- au bon fonctionnement du système immunitaire
+- à augmenter l'énergie mentale et physique
+
+Plantes, vitamines, minéraux pour augmenter l'énergie, réduire la fatigue et booster le système immunitaire.`,
+        ingredients: `Extraits aqueux de : guarana, eleutherocoque, hibiscus, fructose, minéraux : glycérophosphate de calcium, citrate de magnésium, sel de sodium de l'edetate de fer (III), sulfate de zinc, sulfate de manganèse, sulfate de cuivre, chlorure de chrome, vitamines : C, E, B3, A, D3, B5, B12, B2, B6, B1, B9, B8; acidifiant : acide lactique, arôme naturel d'orange (0,8%), épaississant : gomme de xanthane, conservateurs : sorbate de potassium, benzoate de sodium, levure de selenium, molybdate de sodium, édulcorant : sucralose, eau.`,
+        usage: `Faire une cure de 10 jours, prendre une unicadose chaque matin.`,
+        precautions: `À conserver hors de portée des enfants. Ne pas dépasser la dose journalière recommandée.`,
+        weight: '10 unidoses',
+        highlights: [
+            'BOOSTER IMMÉDIAT',
+            'Cure Flash 10 jours',
+            'Effet "Coup de Fouet"',
+            'Format liquide (Assimilation rapide)',
+            '2500mg Guarana'
+        ],
+        keywords: ['vitamines', 'booster', 'énergie', 'fatigue', 'flash'],
+        inStock: true,
+        tags: ['booster', 'energy', 'flash'],
+        nutritionalValues: {
+            portion: "1 unidose (10ml)",
+            energy: "-",
+            fats: "-",
+            fatsSaturated: "-",
+            carbs: "-",
+            carbsSugar: "-",
+            protein: "-",
+            salt: "-"
+        },
+        attributes: [
+            { label: "Objectif", value: "Booster / Coup de fouet" },
+            { label: "Durée", value: "10 jours (Intensif)" },
+            { label: "Format", value: "Unidose liquide" }
+        ]
+    },
+    {
+        id: 'ef-vitamino-plus',
+        name: 'Vitamino+ (Entretien)',
+        brand: 'Eric Favre',
+        category: 'vitamines',
+        price: 14.90, // Prix estimé pour 30 jours
+        image: '/images/products/eric-favre/vitamino-plus.png',
+        description: `Vitamino+ est votre allié quotidien pour MAINTENIR votre forme et votre immunité sur le long terme.
+        
+Contrairement à la cure flash, ce format 30 jours est conçu pour un soutien de fond, idéal pour passer l'hiver ou les périodes chargées sereinement.
+
+Vitamino+ est un complément alimentaire complet :
+- Soutien quotidien pour éviter la fatigue
+- Renforcement progressif du système immunitaire
+- Apport équilibré en vitamines et minéraux essentiels
+
+30 jours complexe vitamines, minéraux, acides aminés et extrait de plantes. Pour toute la famille (dès 6 ans).`,
+        ingredients: `AGENTS DE CHARGE : CELLULOSE MICROCRISTALLINE, PHOSPHATE DICALCIQUE, CARBONATE DE CALCIUM, VITAMINE C, OXYDE DE MAGNESIUM, FUMARATE DE FER, L-CHOLINE BITARTRATE, VITAMINE B3, L-LYSINE, L-GLUTAMINE, VITAMINES : E, B5, OXYDE DE ZINC, VITAMINE A, BISGLYCINATE DE MANGANESE, L-METHIONINE, EPAISSISSANT : GOMME DE XANTHANE, GLUCONATE DE CUIVRE, ANTIAGGLOMERANTS : STEARATE DE MAGNESIUM, ACIDE STEARIQUE, EXTRAIT DE POIVRE NOIR TITRE EN PIPERINE, EMULSIFIANT : CROSCARMELLOSE SODIQUE, VITAMINES : B1, B6, D3, B2, B12, B9, PICOLINATE DE CHROME, MOLYBDATE DE SODIUM, SELENITE DE SODIUM, VITAMINE B8.`,
+        usage: `Prendre 1 comprimé le matin avec un verre d’eau.`,
+        precautions: `Ne pas dépasser la dose journalière recommandée. A utiliser dans le cadre d’un mode de vie sain.`,
+        weight: '30 comprimés',
+        highlights: [
+            'FORME AU QUOTIDIEN',
+            'Traitement de fond (30 jours)',
+            'Soutien Immunitaire Durable',
+            'Équilibre Vitamines/Minéraux',
+            'Idéal changement de saison'
+        ],
+        keywords: ['vitamines', 'entretien', 'quotidien', 'santé', 'immunité'],
+        inStock: true,
+        tags: ['health', 'maintenance', 'daily'],
+        nutritionalValues: {
+            portion: "1 comprimé",
+            energy: "-",
+            fats: "-",
+            fatsSaturated: "-",
+            carbs: "-",
+            carbsSugar: "-",
+            protein: "-",
+            salt: "-"
+        },
+        attributes: [
+            { label: "Objectif", value: "Entretien / Fond" },
+            { label: "Durée", value: "30 jours (Quotidien)" },
+            { label: "Format", value: "Comprimés" }
+        ]
+    },
+    {
+        id: 'ef-hydrafull-unit',
+        name: 'Hydrafull Electrolytes',
+        brand: 'Eric Favre',
+        category: 'vitamines',
+        price: 8.50,
+        image: '/images/products/eric-favre/hydrafull-electrolytes.png',
+        description: `L'hydratation pour tous. Restez hydraté tout la journée en faisant le plein de minéraux ! (Crampes & récupération)
+
+Découvrez Hydrafull Electrolytes - Hydratation +, la solution idéale pour une hydratation efficace et durable tout au long de la journée.
+- Formulée avec des vitamines essentielles et des minéraux
+- Sans sucre (0 calories inutiles)
+- Arôme naturel de citron pour un rafraîchissement optimal
+
+Idéal pour les efforts intenses ou pour maintenir un niveau d’hydratation optimal au quotidien.`,
+        ingredients: `ACIDIFIANT : ACIDE CITRIQUE ; CITRATE DE POTASSIUM ; SELS DE CALCIUM D’ACIDE CITRIQUE ; RÉGULATEUR D’ACIDITÉ : BICARBONATE DE SODIUM ; SELS DE MAGNÉSIUM D’ACIDE CITRIQUE; AGENT DE CHARGE : SORBITOL ; ARÔME NATUREL CITRON (2,38%) ; VITAMINE C ; ÉDULCORANT : SUCRALOSE ; CHLORURE DE SODIUM ; CITRATE DE ZINC ; VITAMINE B3; VITAMINE B2 ; VITAMINE B6 ; VITAMINE B1.`,
+        usage: `Dissoudre un comprimé effervescent dans 500 ml d'eau. Lors d'un effort intense, dissoudre 1 comprimé avant l'effort dans 500 ml d'eau et boire par petites gorgées, et dissoudre 1 comprimé après l'effort.`,
+        precautions: `Se conformer aux conseils d’utilisation. A conserver à l’abri de la chaleur, de la lumière et de l’humidité.`,
+        weight: '20 comprimés',
+        servings: '20 doses',
+        highlights: [
+            'HYDRATATION OPTIMALE',
+            'Riche en Électrolytes',
+            'Sans Sucre',
+            'Arôme Naturel Citron',
+            'Anti-Crampes & Récupération'
+        ],
+        keywords: ['electrolytes', 'hydratation', 'sport', 'minéraux', 'sans sucre', 'citron'],
+        inStock: true,
+        tags: ['hydration', 'sport', 'electrolytes', 'sugar-free'],
+        nutritionalValues: {
+            portion: "1 comprimé",
+            energy: "9 kcal",
+            fats: "0g",
+            fatsSaturated: "0g",
+            carbs: "0.40g",
+            carbsSugar: "0.01g",
+            protein: "0.01g",
+            salt: "0.38g"
+        },
+        attributes: [
+            { label: "Potassium", value: "300 mg (15% AR)" },
+            { label: "Calcium", value: "120 mg (15% AR)" },
+            { label: "Magnésium", value: "56.25 mg (15% AR)" },
+            { label: "Vitamine C", value: "80 mg (100% AR)" },
+            { label: "Format", value: "Tube 20 effervescents" }
+        ]
+    },
+    {
+        id: 'ef-hydrafull-pack',
+        name: 'Pack Hydrafull (x3)',
+        brand: 'Eric Favre',
+        category: 'vitamines',
+        price: 24.90,
+        oldPrice: 25.50,
+        image: '/images/products/eric-favre/hydrafull-electrolytes-pack.png',
+        description: `Pack Économique de 3 tubes d'Hydrafull Electrolytes ! (60 doses)
+        
+L'hydratation pour tous. Restez hydraté tout la journée en faisant le plein de minéraux ! (Crampes & récupération)
+
+Découvrez Hydrafull Electrolytes - Hydratation +, la solution idéale pour une hydratation efficace et durable tout au long de la journée.
+- Formulée avec des vitamines essentielles et des minéraux
+- Sans sucre (0 calories inutiles)
+- Arôme naturel de citron pour un rafraîchissement optimal
+
+Idéal pour les efforts intenses ou pour maintenir un niveau d’hydratation optimal au quotidien.`,
+        ingredients: `ACIDIFIANT : ACIDE CITRIQUE ; CITRATE DE POTASSIUM ; SELS DE CALCIUM D’ACIDE CITRIQUE ; RÉGULATEUR D’ACIDITÉ : BICARBONATE DE SODIUM ; SELS DE MAGNÉSIUM D’ACIDE CITRIQUE; AGENT DE CHARGE : SORBITOL ; ARÔME NATUREL CITRON (2,38%) ; VITAMINE C ; ÉDULCORANT : SUCRALOSE ; CHLORURE DE SODIUM ; CITRATE DE ZINC ; VITAMINE B3; VITAMINE B2 ; VITAMINE B6 ; VITAMINE B1.`,
+        usage: `Dissoudre un comprimé effervescent dans 500 ml d'eau. Lors d'un effort intense, dissoudre 1 comprimé avant l'effort dans 500 ml d'eau et boire par petites gorgées, et dissoudre 1 comprimé après l'effort.`,
+        precautions: `Se conformer aux conseils d’utilisation. A conserver à l’abri de la chaleur, de la lumière et de l’humidité.`,
+        weight: '3 x 20 comprimés',
+        servings: '60 doses',
+        highlights: [
+            'PACK ÉCONOMIQUE',
+            '3 Tubes de 20 tabs',
+            'Hydratation & Électrolytes',
+            'Sans Sucre',
+            'Arôme Naturel Citron'
+        ],
+        keywords: ['electrolytes', 'hydratation', 'sport', 'minéraux', 'sans sucre', 'pack'],
+        inStock: true,
+        tags: ['hydration', 'sport', 'electrolytes', 'pack', 'promo'],
+        nutritionalValues: {
+            portion: "1 comprimé",
+            energy: "9 kcal",
+            fats: "0g",
+            fatsSaturated: "0g",
+            carbs: "0.40g",
+            carbsSugar: "0.01g",
+            protein: "0.01g",
+            salt: "0.38g"
+        },
+        attributes: [
+            { label: "Potassium", value: "300 mg (15% AR)" },
+            { label: "Calcium", value: "120 mg (15% AR)" },
+            { label: "Magnésium", value: "56.25 mg (15% AR)" },
+            { label: "Vitamine C", value: "80 mg (100% AR)" },
+            { label: "Format", value: "3 Tubes (60 effervescents)" }
+        ]
+    },
+
+    {
+        id: 'ef-omega3',
+        name: 'Oméga 3 Cœur & Cerveau',
+        brand: 'Eric Favre',
+        category: 'omega3',
+        price: 15.90,
+        image: '/images/categories/omega3.png',
+        description: `Le meilleur des Omégas 3 pour le maintien des fonctions cardiaques et cérébrales.
+        
+Les omégas 3 sont reconnus pour agir à la fois sur la santé cardio-vasculaire et sur la mémoire mais présentent de nombreux autres avantages.
+- L’acide eicosapentaénoique (EPA) et l’acide docosahexaénoique (DHA) contribuent à une fonction cardiaque normale.
+- Le DHA contribue quant à lui au fonctionnement normal du cerveau (concentration, mémoire, équilibre émotionnel).
+
+Le Laboratoire Eric Favre® a sélectionné une huile de poisson de qualité hautement concentrée en oméga 3 et en EPA/DHA, fournissant ces deux acides gras essentiels en quantités équilibrées, le tout enrichi en Vitamine E.`,
+        ingredients: `HUILE DE POISSON (NON ORIGINE FRANCE) ; D-ALPHA TOCOPHEROL ; TUNIQUE : GELATINE, GLYCERINE.`,
+        usage: `Prendre 2 à 3 capsules par jour avec un verre d’eau le matin, pendant le petit déjeuner. De 6 à 10 ans : 1 à 2 capsules par jour. Programme renouvelable.`,
+        precautions: `Ne pas dépasser la dose journalière recommandée. À utiliser dans le cadre d’une alimentation équilibrée et d’un mode de vie sain. Tenir hors de portée des jeunes enfants. Conserver au sec, à l’abri de la lumière et de la chaleur.`,
+        weight: '120 capsules',
+        servings: '40 à 60 jours',
+        highlights: [
+            'Cardio Protecteur',
+            'Équilibre Émotionnel & Mémoire',
+            'Haute Concentration EPA/DHA',
+            'Enrichi en Vitamine E',
+            'Huile de Poisson Qualité'
+        ],
+        keywords: ['omega 3', 'epa', 'dha', 'coeur', 'cerveau', 'memoire'],
+        inStock: true,
+        tags: ['omega3', 'heart', 'brain', 'health'],
+        nutritionalValues: {
+            portion: "3 capsules",
+            energy: "-",
+            fats: "3000 mg (Huile)",
+            fatsSaturated: "-",
+            carbs: "-",
+            carbsSugar: "-",
+            protein: "-",
+            salt: "-"
+        },
+        attributes: [
+            { label: "EPA (3 caps)", value: "540 mg" },
+            { label: "DHA (3 caps)", value: "360 mg" },
+            { label: "Vitamine E  (3 caps)", value: "11.8 mg" },
+            { label: "Format", value: "Pilulier 120 capsules" }
+        ]
+    },
+    {
+        id: 'ef-omega3-pack',
+        name: 'Pack Oméga 3 (x3)',
+        brand: 'Eric Favre',
+        category: 'omega3',
+        price: 39.90,
+        oldPrice: 47.70,
+        image: '/images/products/eric-favre/omega3-pack.png',
+        description: `Pack Économique de 3 piluliers d'Oméga 3 ! (Programme 6 mois environ)
+
+Le meilleur des Omégas 3 pour le maintien des fonctions cardiaques et cérébrales.
+- Cardio protecteur
+- Equilibre émotionnel
+- Concentration et mémoire
+
+Concentration élevée : 3000mg d'huile de poisson pour 3 capsules, riches en EPA et DHA.`,
+        ingredients: `HUILE DE POISSON (NON ORIGINE FRANCE) ; D-ALPHA TOCOPHEROL ; TUNIQUE : GELATINE, GLYCERINE.`,
+        usage: `Prendre 2 à 3 capsules par jour avec un verre d’eau le matin, pendant le petit déjeuner.`,
+        precautions: `Ne pas dépasser la dose journalière recommandée.`,
+        weight: '3 x 120 capsules',
+        servings: '120 à 180 jours',
+        highlights: [
+            'PACK 3 MOIS+',
+            '30% d\'Économie',
+            'Cardio & Cerveau',
+            'Forte Teneur en Oméga 3',
+            'Idéal Cure Longue'
+        ],
+        keywords: ['omega 3', 'pack', 'promo', 'coeur', 'cerveau'],
+        inStock: true,
+        tags: ['omega3', 'heart', 'brain', 'pack', 'promo'],
+        nutritionalValues: {
+            portion: "3 capsules",
+            energy: "-",
+            fats: "3000 mg (Huile)",
+            fatsSaturated: "-",
+            carbs: "-",
+            carbsSugar: "-",
+            protein: "-",
+            salt: "-"
+        },
+        attributes: [
+            { label: "EPA (3 caps)", value: "540 mg" },
+            { label: "DHA (3 caps)", value: "360 mg" },
+            { label: "Format", value: "3 Piluliers (360 caps)" }
+        ]
+    },
+    {
+        id: 'lfn-omega3',
+        name: 'Oméga 3 (La French)',
+        brand: 'La French Nutrition',
+        category: 'omega3',
+        price: 15.10,
+        image: '/images/products/la-french-nutrition/omega3.png',
+        description: `Santé Cardiovasculaire, Cérébrale & Vision.
+        
+Les Oméga-3 sont des acides gras polyinsaturés essentiels que l’organisme ne peut pas synthétiser en quantité suffisante. Ce complément alimentaire apporte des Oméga-3 sous forme d’huile de poisson, incluant de l’EPA et du DHA, ainsi que de la vitamine E.
+
+Bénéfices reconnus :
+- L’EPA et le DHA contribuent à une fonction cardiaque normale (250mg/jour)
+- Le DHA contribue au maintien d’une vision normale et au fonctionnement normal du cerveau
+- La vitamine E contribue à protéger les cellules contre le stress oxydatif`,
+        ingredients: `Huile de poisson (18% EPA, 12% DHA), Gélatine, Glycérine, Eau, Vitamine E (ACÉTATE - DL - ALPHA - TOCOPHÉROL).
+Peut contenir des traces de gluten, d'œufs, graines de sésame, fruits à coques, soja, céleri, sulfites, crustacés.`,
+        usage: `Prendre 3 capsules par jour avec un verre d'eau.`,
+        precautions: `Ne pas dépasser la dose journalière recommandée. Déconseillé aux femmes enceintes ou allaitantes sans avis médical.`,
+        weight: '60 capsules',
+        servings: '20 jours',
+        highlights: [
+            'Santé Cardiovasculaire',
+            'Vision & Cerveau',
+            'Enrichi en Vitamine E',
+            'Huile de Poisson Standarisée',
+            'Fabriqué en France'
+        ],
+        keywords: ['omega 3', 'la french', 'coeur', 'vision', 'cerveau'],
+        inStock: true,
+        tags: ['omega3', 'heart', 'brain', 'vision', 'french'],
+        nutritionalValues: {
+            portion: "1 capsule",
+            energy: "-",
+            fats: "1000 mg (Huile)",
+            fatsSaturated: "-",
+            carbs: "-",
+            carbsSugar: "-",
+            protein: "-",
+            salt: "-"
+        },
+        attributes: [
+            { label: "EPA (1 cap)", value: "180 mg" },
+            { label: "DHA (1 cap)", value: "120 mg" },
+            { label: "Vitamine E", value: "0.01 mg" },
+            { label: "Format", value: "Pot 60 capsules" }
+        ]
+    },
+    {
+        id: 'redcon1-total-war',
+        name: 'Total War Pre-Workout',
+        brand: 'REDCON1',
+        category: 'pre-workout',
+        price: 24.99,
+        oldPrice: 35.99,
+        image: '/images/products/redcon1/total-war-blue-lemonade.png',
+        images: [
+            '/images/products/redcon1/total-war-blue-lemonade.png',
+            '/images/products/redcon1/total-war-blue-raspberry.png',
+            '/images/products/redcon1/total-war-grape.png',
+            '/images/products/redcon1/total-war-green-apple.png',
+            '/images/products/redcon1/total-war-orange-crush.png',
+            '/images/products/redcon1/total-war-pineapple-juice.png',
+            '/images/products/redcon1/total-war-rainbow-candy.png',
+            '/images/products/redcon1/total-war-tigers-blood.png',
+            '/images/products/redcon1/total-war-watermelon.png'
+        ],
+        description: `PRÉPAREZ-VOUS AU COMBAT !
+        
+Total War de Redcon1 est un pre-workout à la formule particulièrement riche, conçu par des professionnels pour des séances dignes de ce nom.
+Il combine 10 ingrédients actifs pour influencer plusieurs leviers de la performance : congestion, énergie, concentration.
+
+Points forts :
+- PUISSANCE MAXIMALE : 350mg de caféine totale pour une énergie explosive.
+- FORMULE COMPLÈTE : 6g Citrulline, 3.2g Bêta-Alanine, 1g Taurine.
+- SANS CRASH : Énergie durable et focus intense.
+- CONGESTION : Augmentation des niveaux d'énergie et du flux sanguin.
+
+"Total War permet à son utilisateur de rejoindre le champ de bataille avec confiance."`,
+        ingredients: `L-Citrulline Malate (6g), Bêta-Alanine (3.2g), Extrait de Betterave (1g), Taurine (1g), Caféine Anhydre (250mg), Extrait de Genévrier (AMPIblast™ 150mg), Malate de Dicaféine (100mg), Polyphénols de Cacao, Thé Vert, Naringine, BioPerine (10mg).`,
+        usage: `En raison de sa forte teneur en caféine, ne pas dépasser 1 dose par jour. 
+Mélanger 1 dose (15g) avec 120-180 ml d’eau fraîche, 30 minutes avant l'entraînement.
+Pour évaluer la tolérance, débuter par des demi-doses.`,
+        precautions: `Teneur élevée en caféine (350mg/dose). Ne pas associer avec d'autres stimulants. Déconseillé aux enfants, femmes enceintes ou allaitantes (max 200mg/jour recommandé pour ces profils).`,
+        weight: '441g (30 Servings)',
+        servings: '30 doses',
+        highlights: [
+            '350mg Caféine Totale',
+            '6g Citrulline Malate',
+            '3.2g Bêta-Alanine',
+            'Congestion & Focus',
+            'Prix Promo'
+        ],
+        keywords: ['preworkout', 'total war', 'redcon1', 'cafeine', 'puissance'],
+        inStock: true,
+        tags: ['preworkout', 'intense', 'energy', 'pump'],
+        nutritionalValues: {
+            portion: "1 dose (14.7g)",
+            energy: "0 kcal",
+            fats: "0g",
+            fatsSaturated: "0g",
+            carbs: "<1g",
+            carbsSugar: "0g",
+            protein: "0g",
+            salt: "0g"
+        },
+        attributes: [
+            { label: "Caféine Totale", value: "350 mg" },
+            { label: "Citrulline Malate", value: "6000 mg" },
+            { label: "Bêta-Alanine", value: "3200 mg" },
+            { label: "Taurine", value: "1000 mg" }
+        ],
+        flavors: [
+            { name: "Blue Lemonade", image: "/images/products/redcon1/total-war-blue-lemonade.png" },
+            { name: "Blue Raspberry", image: "/images/products/redcon1/total-war-blue-raspberry.png" },
+            { name: "Grape", image: "/images/products/redcon1/total-war-grape.png" },
+            { name: "Green Apple", image: "/images/products/redcon1/total-war-green-apple.png" },
+            { name: "Orange Crush", image: "/images/products/redcon1/total-war-orange-crush.png" },
+            { name: "Pineapple Juice", image: "/images/products/redcon1/total-war-pineapple-juice.png" },
+            { name: "Rainbow Candy", image: "/images/products/redcon1/total-war-rainbow-candy.png" },
+            { name: "Tiger's Blood", image: "/images/products/redcon1/total-war-tigers-blood.png" },
+            { name: "Watermelon", image: "/images/products/redcon1/total-war-watermelon.png" }
+        ]
+    },
+    {
+        id: 'gen-burner',
+        name: 'Brûleur Extrême',
+        brand: 'Bodystart Nutrition',
         category: 'bruleurs',
-        price: 22.90,
-        image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400',
-        description: 'L-Carnitine liquide hautement dosée. Favorise l\'utilisation des graisses comme énergie.',
-        ingredients: 'L-Carnitine tartrate, eau purifiée, arôme citron, conservateurs.',
-        usage: '30ml avant l\'entraînement ou le matin à jeun.',
-        weight: '500ml',
-        inStock: true,
-        isBestseller: true,
-    },
-    {
-        id: 'fn-magnesium',
-        name: 'Magnésium Bisglycinate',
-        brand: 'French Nutrition',
-        category: 'vitamines',
-        price: 16.90,
-        image: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=400',
-        description: 'Magnésium sous forme bisglycinate pour une absorption optimale. Réduit la fatigue.',
-        ingredients: 'Bisglycinate de magnésium, gélule végétale.',
-        usage: '2 gélules le soir avant le coucher.',
+        price: 29.90,
+        image: '/images/categories/bruleurs.png',
+        description: 'Formule thermogénique avancée pour stimuler le métabolisme et favoriser la perte de gras. Idéal en période de sèche pour définir votre silhouette.',
+        ingredients: 'Extrait de Thé Vert, L-Carnitine L-Tartrate, Caféine Anhydre, Extrait de Guarana, Extrait de Piment de Cayenne, Chrome.',
+        usage: 'Prendre 2 gélules le matin et 2 gélules avant l\'entraînement ou le déjeuner.',
         weight: '90 gélules',
         inStock: true,
+        tags: ['fatburner', 'weightloss', 'energy']
     },
     {
-        id: 'fn-zinc',
-        name: 'Zinc Picolinate 25mg',
-        brand: 'French Nutrition',
-        category: 'vitamines',
-        price: 12.90,
-        image: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=400',
-        description: 'Zinc sous forme picolinate très assimilable. Soutient l\'immunité et la testostérone.',
-        ingredients: 'Picolinate de zinc, gélule végétale.',
-        usage: '1 gélule par jour avec un repas.',
-        weight: '60 gélules',
+        id: 'gen-bcaa',
+        name: 'Amino Recovery',
+        brand: 'Bodystart Nutrition',
+        category: 'bcaa',
+        price: 27.90,
+        image: '/images/categories/bcaa.png',
+        description: 'Mélange d\'acides aminés branchés (BCAA) au ratio 2:1:1 pour optimiser la récupération musculaire et réduire la fatigue. Indispensable pour les entraînements intenses.',
+        ingredients: 'L-Leucine, L-Isoleucine, L-Valine, Électrolytes (Sodium, Potassium), Vitamine B6.',
+        usage: 'Mélanger 1 dose (10g) avec 500ml d\'eau. À consommer pendant ou après l\'entraînement.',
+        weight: '400g',
         inStock: true,
+        tags: ['recovery', 'amino', 'muscle']
     },
 ]
 

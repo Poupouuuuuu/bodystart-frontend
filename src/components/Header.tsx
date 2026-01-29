@@ -52,8 +52,12 @@ export default function Header() {
 
     return (
         <header className="header">
-            {/* Industrial pipe decoration */}
-            <div className="header__pipe"></div>
+            {/* Top Bar / Static Message */}
+            <div className="header__marquee">
+                <div className="header__marquee-content">
+                    <span>LIVRAISON OFFERTE DÈS 80€  •  CLICK & COLLECT 2H  •  EXPÉDITION 24H</span>
+                </div>
+            </div>
 
             <div className="header__container container">
                 {/* Logo */}

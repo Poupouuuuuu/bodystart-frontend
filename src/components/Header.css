@@ -20,22 +20,58 @@
     padding: 2px;
 }
 
-/* Industrial pipe decoration at top */
-.header__pipe {
-    height: 4px;
-    background: linear-gradient(90deg,
-            var(--color-green-dark) 0%,
-            var(--color-green) 20%,
-            var(--color-green-bright) 50%,
-            var(--color-green) 80%,
-            var(--color-green-dark) 100%);
+/* Top Bar / Static */
+.header__marquee {
+    height: 38px;
+    background: var(--color-green-bright);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
 }
+
+.header__marquee-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.header__marquee-content span {
+    color: #000;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* Standard sharp font */
+    font-weight: 800;
+    /* Extra bold */
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-shadow: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 768px) {
+    .header__marquee-content span {
+        font-size: 0.8rem;
+        padding: 0 10px;
+        line-height: 1.2;
+    }
+}
+
+/* Remove CSS animation if relying on Framer Motion completely, but keeping fallback is good practice. 
+   However, since we use motion in JSX, we don't need keyframes here if motion handles it. 
+   Actually, the JSX has animate prop, so we don't need CSS keyframes. */
+
 
 .header__container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px;
+    height: 90px;
+    max-width: 90vw;
+    width: 100%;
 }
 
 /* ============================================= 
@@ -47,13 +83,13 @@
     gap: 0;
     text-decoration: none;
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     line-height: 1;
     letter-spacing: 0.05em;
 }
 
 .header__logo img {
-    height: 45px;
+    height: 60px;
     width: auto;
     object-fit: contain;
 }
@@ -77,7 +113,7 @@
 .header__nav {
     display: flex;
     align-items: center;
-    gap: var(--space-xl);
+    gap: 3rem;
 }
 
 .header__link {
@@ -85,7 +121,7 @@
     align-items: center;
     gap: var(--space-xs);
     font-family: var(--font-display);
-    font-size: var(--font-size-md);
+    font-size: 1.25rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-text-secondary);

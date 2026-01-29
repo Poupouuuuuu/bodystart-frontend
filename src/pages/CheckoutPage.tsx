@@ -62,7 +62,7 @@ export default function CheckoutPage() {
                                 <div className="form-row">
                                     <div className="form-group half">
                                         <label>Code Postal</label>
-                                        <input type="text" required />
+                                        <input type="text" inputMode="numeric" pattern="[0-9]*" required />
                                     </div>
                                     <div className="form-group half">
                                         <label>Ville</label>
@@ -87,16 +87,16 @@ export default function CheckoutPage() {
 
                                 <div className="form-group">
                                     <label>Numéro de carte</label>
-                                    <input type="text" placeholder="0000 0000 0000 0000" />
+                                    <input type="text" inputMode="numeric" autoComplete="cc-number" placeholder="0000 0000 0000 0000" />
                                 </div>
                                 <div className="form-row">
                                     <div className="form-group half">
                                         <label>Date d'expiration</label>
-                                        <input type="text" placeholder="MM/YY" />
+                                        <input type="text" inputMode="numeric" autoComplete="cc-exp" placeholder="MM/YY" />
                                     </div>
                                     <div className="form-group half">
                                         <label>CVC</label>
-                                        <input type="text" placeholder="123" />
+                                        <input type="text" inputMode="numeric" autoComplete="cc-csc" placeholder="123" />
                                     </div>
                                 </div>
                             </div>

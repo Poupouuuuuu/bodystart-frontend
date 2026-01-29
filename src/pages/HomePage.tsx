@@ -24,7 +24,7 @@ export default function HomePage() {
     }
 
     return (
-        <div className="home">
+        <div className="home" data-refresh="true">
             {/* Hero Section */}
             <section className="hero">
                 <div className="hero__bg">
@@ -137,8 +137,10 @@ export default function HomePage() {
                 </div>
             </section>
 
+            <div className="section-divider"></div>
+
             {/* Bestsellers Section */}
-            <section className="section bestsellers">
+            <section className="section bestsellers section-alt">
                 <div className="container">
                     <div className="section-title">
                         <h2>Nos <span className="text-gradient">Bestsellers</span></h2>
@@ -147,8 +149,8 @@ export default function HomePage() {
                     <motion.div
                         className="products-grid grid grid-4"
                         variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
+                        initial="visible"
+                        animate="visible"
                         viewport={{ once: true }}
                     >
                         {bestsellers.map((product, index) => (
@@ -165,33 +167,38 @@ export default function HomePage() {
                 </div>
             </section>
 
+            <div className="section-divider"></div>
+
             {/* New Products Section */}
             {newProducts.length > 0 && (
-                <section className="section new-products">
-                    <div className="container">
-                        <div className="section-title">
-                            <h2>Les <span className="text-amber">Nouveautés</span></h2>
-                            <p>Découvrez nos dernières arrivées</p>
+                <>
+                    <section className="section new-products">
+                        <div className="container">
+                            <div className="section-title">
+                                <h2>Les <span className="text-amber">Nouveautés</span></h2>
+                                <p>Découvrez nos dernières arrivées</p>
+                            </div>
+                            <motion.div
+                                className="products-grid grid grid-4"
+                                variants={containerVariants}
+                                initial="visible"
+                                animate="visible"
+                                viewport={{ once: true }}
+                            >
+                                {newProducts.map((product, index) => (
+                                    <motion.div key={product.id} variants={itemVariants}>
+                                        <ProductCard product={product} index={index} />
+                                    </motion.div>
+                                ))}
+                            </motion.div>
                         </div>
-                        <motion.div
-                            className="products-grid grid grid-4"
-                            variants={containerVariants}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                        >
-                            {newProducts.map((product, index) => (
-                                <motion.div key={product.id} variants={itemVariants}>
-                                    <ProductCard product={product} index={index} />
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    </div>
-                </section>
+                    </section>
+                    <div className="section-divider"></div>
+                </>
             )}
 
             {/* Click & Collect Section */}
-            <section className="section click-collect">
+            <section className="section click-collect section-alt">
                 <div className="container">
                     <div className="click-collect__content">
                         <motion.div
