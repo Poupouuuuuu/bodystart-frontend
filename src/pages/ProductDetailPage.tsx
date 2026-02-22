@@ -70,7 +70,7 @@ export default function ProductDetailPage() {
         setActiveImage(product.image)
     }
 
-    const handleFlavorChange = (flavor: string | { name: string, image?: string }) => {
+    const handleFlavorChange = (flavor: string | { name: string, image?: string, id?: string, price?: number }) => {
         const flavorName = typeof flavor === 'string' ? flavor : flavor.name
         const flavorImage = typeof flavor === 'object' ? flavor.image : undefined
 
@@ -119,14 +119,26 @@ export default function ProductDetailPage() {
 
     const handleAddToCart = () => {
         if (!product) return;
+
+        let currentVariantId = product.variantId;
+        let currentPrice = product.price;
+
+        if (selectedFlavor && product.flavors) {
+            const flavorObj = product.flavors.find(f => (typeof f === 'string' ? f : f.name) === selectedFlavor);
+            if (flavorObj && typeof flavorObj === 'object') {
+                if (flavorObj.id) currentVariantId = flavorObj.id;
+                if (flavorObj.price) currentPrice = flavorObj.price;
+            }
+        }
+
         for (let i = 0; i < quantity; i++) {
             addToCart({
                 id: product.id,
                 name: selectedFlavor ? (product.name + ' - ' + selectedFlavor) : product.name,
                 brand: product.brand,
-                price: product.price,
+                price: currentPrice,
                 image: activeImage || product.image, // Use active image in cart
-                variantId: product.variantId,
+                variantId: currentVariantId,
             })
         }
     }
@@ -219,7 +231,18 @@ export default function ProductDetailPage() {
                     </p>
 
                     <div className="product-detail__pricing">
-                        <span className="product-detail__price">{product.price.toFixed(2)} €</span>
+                        <span className="product-detail__price">
+                            {(() => {
+                                let displayPrice = product.price;
+                                if (selectedFlavor && product.flavors) {
+                                    const flavorObj = product.flavors.find(f => (typeof f === 'string' ? f : f.name) === selectedFlavor);
+                                    if (flavorObj && typeof flavorObj === 'object' && flavorObj.price) {
+                                        displayPrice = flavorObj.price;
+                                    }
+                                }
+                                return displayPrice.toFixed(2);
+                            })()} €
+                        </span>
                         <span className="product-detail__tax-note">Taxes incluses. Frais d'expédition calculés à l'étape de paiement.</span>
                     </div>
 

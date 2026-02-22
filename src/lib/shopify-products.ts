@@ -35,6 +35,9 @@ export interface ShopifyProduct {
           currencyCode: string;
         };
         availableForSale: boolean;
+        image: {
+          url: string;
+        } | null;
       };
     }[];
   };
@@ -68,7 +71,7 @@ const GET_PRODUCTS_QUERY = `
               }
             }
           }
-          variants(first: 10) {
+          variants(first: 20) {
             edges {
               node {
                 id
@@ -77,6 +80,9 @@ const GET_PRODUCTS_QUERY = `
                 price {
                   amount
                   currencyCode
+                }
+                image {
+                  url
                 }
               }
             }
@@ -123,7 +129,7 @@ const GET_PRODUCT_QUERY = `
           }
         }
       }
-      variants(first: 10) {
+      variants(first: 20) {
         edges {
           node {
             id
@@ -132,6 +138,9 @@ const GET_PRODUCT_QUERY = `
             price {
               amount
               currencyCode
+            }
+            image {
+              url
             }
           }
         }
@@ -216,7 +225,7 @@ const GET_COLLECTION_PRODUCTS_QUERY = `
                 }
               }
             }
-            variants(first: 10) {
+            variants(first: 20) {
               edges {
                 node {
                   id
@@ -225,6 +234,9 @@ const GET_COLLECTION_PRODUCTS_QUERY = `
                   price {
                     amount
                     currencyCode
+                  }
+                  image {
+                    url
                   }
                 }
               }
@@ -258,6 +270,17 @@ export function mapShopifyToLocalProduct(sp: ShopifyProduct): Product {
   const images = sp.images?.edges.map(e => e.node.url) || [];
   const mainImage = sp.featuredImage?.url || images[0] || '/images/products/placeholder.png';
 
+  // Process variants to build the flavors list
+  const flavors = sp.variants?.edges.map(e => {
+    const v = e.node;
+    return {
+      name: v.title !== 'Default Title' ? v.title : 'Standard',
+      image: v.image?.url,
+      id: v.id,
+      price: parseFloat(v.price.amount)
+    };
+  }) || [];
+
   return {
     id: sp.handle || sp.id.split('/').pop() || sp.id, // Use Handle for clean URLs
     name: sp.title,
@@ -271,6 +294,7 @@ export function mapShopifyToLocalProduct(sp: ShopifyProduct): Product {
     isNew: true,
     isBestseller: true,
     variantId: variantId,
+    flavors: flavors.length > 0 && flavors[0].name !== 'Standard' ? flavors : undefined,
   };
 }
 
