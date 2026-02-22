@@ -292,49 +292,51 @@ export default function ProductDetailPage() {
 
 
 
-                    {/* Quantity & Add to Cart */}
+                    {/* Quantity & Actions */}
                     <div className="product-detail__actions-row">
-                        <div className="product-detail__selector-group">
-                            <label className="product-detail__label">Quantité</label>
+                        <div className="product-detail__selector-group" style={{ marginBottom: 0 }}>
+                            <label className="product-detail__label" style={{ marginBottom: '8px' }}>Quantité</label>
                             <div className="product-detail__quantity">
                                 <button
                                     onClick={() => setQuantity(q => Math.max(1, q - 1))}
                                     disabled={quantity <= 1}
+                                    aria-label="Decrease quantity"
                                 >
                                     −
                                 </button>
                                 <span>{quantity}</span>
-                                <button onClick={() => setQuantity(q => q + 1)}>
+                                <button
+                                    onClick={() => setQuantity(q => q + 1)}
+                                    aria-label="Increase quantity"
+                                >
                                     +
                                 </button>
                             </div>
                         </div>
-                    </div>
 
-
-
-                    <div className="product-detail__buttons">
-                        <button
-                            className="btn btn-primary btn-lg product-detail__add-btn"
-                            onClick={handleAddToCart}
-                            disabled={!product.inStock}
-                        >
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '10px' }}>
-                                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                                <line x1="3" y1="6" x2="21" y2="6" />
-                                <path d="M16 10a4 4 0 01-8 0" />
-                            </svg>
-                            Ajouter au panier
-                        </button>
-                        <button
-                            className={`btn btn-secondary btn-lg product-detail__wishlist-btn ${isLiked ? 'active' : ''} `}
-                            onClick={handleToggleWishlist}
-                            aria-label={isLiked ? "Retirer des favoris" : "Ajouter aux favoris"}
-                        >
-                            <svg viewBox="0 0 24 24" fill={isLiked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                            </svg>
-                        </button>
+                        <div className="product-detail__buttons">
+                            <button
+                                className="btn btn-primary btn-lg product-detail__add-btn"
+                                onClick={handleAddToCart}
+                                disabled={!product.inStock}
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '10px' }}>
+                                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                                    <line x1="3" y1="6" x2="21" y2="6" />
+                                    <path d="M16 10a4 4 0 01-8 0" />
+                                </svg>
+                                {product.inStock ? 'Ajouter au panier' : 'Rupture de stock'}
+                            </button>
+                            <button
+                                className={`btn btn-secondary btn-lg product-detail__wishlist-btn ${isLiked ? 'active' : ''} `}
+                                onClick={handleToggleWishlist}
+                                aria-label={isLiked ? "Retirer des favoris" : "Ajouter aux favoris"}
+                            >
+                                <svg viewBox="0 0 24 24" fill={isLiked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div className="product-detail__trust-features">
