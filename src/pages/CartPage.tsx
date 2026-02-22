@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useCart } from '../context/CartContext'
+import { createCheckoutUrl } from '../lib/shopify-cart'
 import './CartPage.css'
 
 type DeliveryOption = 'delivery' | 'clickcollect'
@@ -9,10 +10,22 @@ type DeliveryOption = 'delivery' | 'clickcollect'
 export default function CartPage() {
     const { items, updateQuantity, removeFromCart, totalPrice, clearCart } = useCart()
     const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>('delivery')
+    const [isCheckingOut, setIsCheckingOut] = useState(false)
 
 
     const deliveryFee = deliveryOption === 'delivery' && totalPrice < 49 ? 4.90 : 0
     const finalTotal = totalPrice + deliveryFee
+
+    const handleCheckout = async () => {
+        setIsCheckingOut(true)
+        const url = await createCheckoutUrl(items)
+        if (url) {
+            window.location.href = url
+        } else {
+            alert("Erreur lors de la création du paiement ou articles non éligibles.")
+            setIsCheckingOut(false)
+        }
+    }
 
     if (items.length === 0) {
         return (
@@ -177,12 +190,18 @@ export default function CartPage() {
                         </div>
 
                         {/* Checkout Button */}
-                        <Link to="/checkout" className="btn btn-primary btn-lg w-full cart-checkout-btn">
-                            Procéder au paiement
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </Link>
+                        <button
+                            className={`btn btn-primary btn-lg w-full cart-checkout-btn ${isCheckingOut ? 'loading' : ''}`}
+                            onClick={handleCheckout}
+                            disabled={isCheckingOut}
+                        >
+                            {isCheckingOut ? 'Redirection sécurisée...' : 'Procéder au paiement'}
+                            {!isCheckingOut && (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            )}
+                        </button>
 
                         {/* Trust badges */}
                         <div className="cart-trust">

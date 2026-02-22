@@ -1,9 +1,9 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import ProductCard from '../components/ProductCard'
-import type { Product } from '../data/products'
-import { products, categories, brands, getProductsByCategory } from '../data/products'
+import type { Product, Category } from '../data/products'
+import { getShopifyProducts, mapShopifyToLocalProduct, getShopifyCollections, mapShopifyToLocalCategory, getShopifyProductsByCollection } from '../lib/shopify-products'
 import './ProductsPage.css'
 
 const FilterSection = ({ title, activeLabel, isOpen, onToggle, children }: { title: string, activeLabel?: string, isOpen: boolean, onToggle: () => void, children: React.ReactNode }) => (
@@ -54,6 +54,48 @@ export default function ProductsPage() {
     const [searchParams] = useSearchParams()
     const searchQuery = searchParams.get('search') || ''
 
+    const [allProducts, setAllProducts] = useState<Product[]>([])
+    const [dynamicCategories, setDynamicCategories] = useState<Category[]>([])
+    const [dynamicBrands, setDynamicBrands] = useState<{ id: string, name: string }[]>([])
+    const [loading, setLoading] = useState(true)
+
+    // Ensure we fetch collections first, or at least concurrently
+    useEffect(() => {
+        async function fetchInitialData() {
+            setLoading(true)
+            try {
+                // 1. Fetch Collections
+                const shopifyCollections = await getShopifyCollections(10)
+                setDynamicCategories(shopifyCollections.map(mapShopifyToLocalCategory))
+
+                // 2. Fetch Products (either from a specific collection or all)
+                let shopifyData;
+                if (category) {
+                    shopifyData = await getShopifyProductsByCollection(category, 50)
+                } else {
+                    shopifyData = await getShopifyProducts(50)
+                }
+
+                const localizedProducts = shopifyData.map(mapShopifyToLocalProduct)
+                setAllProducts(localizedProducts)
+
+                // 3. Extract unique brands (vendors) from the fetched products
+                const uniqueVendors = Array.from(new Set(localizedProducts.map(p => p.brand))).filter(Boolean) as string[]
+                setDynamicBrands(uniqueVendors.map(vendor => ({
+                    id: vendor.toLowerCase().replace(/\s+/g, '-'),
+                    name: vendor
+                })))
+
+            } catch (error) {
+                console.error("Failed to fetch Shopify data", error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchInitialData()
+    }, [category]) // Re-fetch when category param changes
+
     const [selectedBrand, setSelectedBrand] = useState<string | null>(null)
     const [selectedTag, setSelectedTag] = useState<string | null>(null)
     const [sortBy, setSortBy] = useState('default')
@@ -72,11 +114,18 @@ export default function ProductsPage() {
         }))
     }
 
-    const currentCategory = categories.find(c => c.id === category)
-    const currentBrand = brands.find(b => b.id === selectedBrand)
+    const currentCategory = dynamicCategories.find(c => c.id === category)
+    const currentBrand = dynamicBrands.find(b => b.id === selectedBrand)
 
     const filteredProducts = useMemo(() => {
-        let result: Product[] = category ? getProductsByCategory(category) : products
+        let result: Product[] = allProducts
+
+        // Filter by category
+        // NOTE: Actually handled by the API now if `category` is present via getShopifyProductsByCollection, 
+        // but keeping this for local filtering if needed.
+        // if (category) {
+        //    result = result.filter(p => p.category === category)
+        // }
 
         // Filter by search query
         if (searchQuery) {
@@ -90,7 +139,7 @@ export default function ProductsPage() {
 
         // Filter by brand
         if (selectedBrand) {
-            const brandName = brands.find(b => b.id === selectedBrand)?.name
+            const brandName = dynamicBrands.find(b => b.id === selectedBrand)?.name
             result = result.filter(p => p.brand === brandName)
         }
 
@@ -116,7 +165,7 @@ export default function ProductsPage() {
         }
 
         return result
-    }, [category, selectedBrand, sortBy, priceRange, searchQuery, selectedTag])
+    }, [allProducts, category, selectedBrand, sortBy, priceRange, searchQuery, selectedTag])
 
     return (
         <div className="products-page">
@@ -160,7 +209,7 @@ export default function ProductsPage() {
                                     Tous les produits
                                 </a>
                             </li>
-                            {categories.map(cat => (
+                            {dynamicCategories.map(cat => (
                                 <li key={cat.id}>
                                     <a
                                         href={`/produits/${cat.id}`}
@@ -189,7 +238,7 @@ export default function ProductsPage() {
                                     Toutes les marques
                                 </button>
                             </li>
-                            {brands.map(brand => (
+                            {dynamicBrands.map(brand => (
                                 <li key={brand.id}>
                                     <button
                                         className={`filter-btn ${selectedBrand === brand.id ? 'active' : ''}`}
@@ -271,7 +320,11 @@ export default function ProductsPage() {
                     </div>
 
                     {/* Grid */}
-                    {filteredProducts.length > 0 ? (
+                    {loading ? (
+                        <div className="products-page__empty">
+                            <p style={{ color: 'var(--color-primary)' }}>Chargement du catalogue depuis Shopify...</p>
+                        </div>
+                    ) : filteredProducts.length > 0 ? (
                         <div className="products-grid grid grid-3">
                             {filteredProducts.map((product, index) => (
                                 <ProductCard key={product.id} product={product} index={index} />
@@ -285,7 +338,9 @@ export default function ProductsPage() {
                                 className="btn btn-secondary"
                                 onClick={() => {
                                     setSelectedBrand(null)
-                                    setPriceRange([0, 100])
+                                    setSelectedTag(null)
+                                    setSortBy('default')
+                                    setPriceRange([0, 200])
                                 }}
                             >
                                 Réinitialiser les filtres

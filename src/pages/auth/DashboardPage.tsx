@@ -39,7 +39,7 @@ export default function DashboardPage() {
         { id: 2, name: 'Bureau', contact: user?.name, street: '45 Avenue de la République', city: '75003 Paris', country: 'France', isDefault: false }
     ]
 
-    const [addresses, setAddresses] = useState(getInitialAddresses() || defaultAddresses)
+    const [addresses, setAddresses] = useState<any[]>(getInitialAddresses() || defaultAddresses)
     const [newAddress, setNewAddress] = useState({ name: '', street: '', city: '', country: 'France' })
 
     // Address autocomplete
@@ -100,7 +100,7 @@ export default function DashboardPage() {
         if (!order || !user) return
 
         // Get default address for invoice
-        const defaultAddress = addresses.find(addr => addr.isDefault) || addresses[0]
+        const defaultAddress = addresses.find((addr: any) => addr.isDefault) || addresses[0]
 
         const invoiceData = {
             number: order.id.replace('CMD', 'FAC'),
@@ -130,7 +130,7 @@ export default function DashboardPage() {
 
         if (editingAddressId !== null) {
             // Mode édition
-            setAddresses(addresses.map(addr =>
+            setAddresses(addresses.map((addr: any) =>
                 addr.id === editingAddressId
                     ? { ...addr, name: newAddress.name, street: newAddress.street, city: newAddress.city, country: newAddress.country }
                     : addr
@@ -157,7 +157,7 @@ export default function DashboardPage() {
     }
 
     const handleEditAddress = (id: number) => {
-        const addressToEdit = addresses.find(addr => addr.id === id)
+        const addressToEdit = addresses.find((addr: any) => addr.id === id)
         if (addressToEdit) {
             setNewAddress({
                 name: addressToEdit.name,
@@ -186,7 +186,7 @@ export default function DashboardPage() {
 
     const confirmDeleteAddress = () => {
         if (addressToDelete !== null) {
-            setAddresses(addresses.filter(addr => addr.id !== addressToDelete))
+            setAddresses(addresses.filter((addr: any) => addr.id !== addressToDelete))
         }
         setShowDeleteModal(false)
         setAddressToDelete(null)
@@ -361,7 +361,7 @@ export default function DashboardPage() {
                             </div>
 
                             <div className="addresses-grid">
-                                {addresses.map(addr => (
+                                {addresses.map((addr: any) => (
                                     <div key={addr.id} className="address-card">
                                         <div className="address-header">
                                             <span className="address-type">{addr.name} {addr.isDefault && '(Défaut)'}</span>

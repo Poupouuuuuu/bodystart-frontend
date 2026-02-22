@@ -46,6 +46,15 @@ export interface Product {
     inStock: boolean
     isBestseller?: boolean
     isNew?: boolean
+    variantId?: string // Added for Shopify Checkout
+}
+
+export interface Category {
+    id: string;
+    name: string;
+    icon?: string;
+    image?: string;
+    description?: string;
 }
 
 export const categories = [

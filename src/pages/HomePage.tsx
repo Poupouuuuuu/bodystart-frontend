@@ -1,12 +1,36 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import ProductCard from '../components/ProductCard'
-import { categories, getBestsellers, getNewProducts } from '../data/products'
+import type { Product, Category } from '../data/products'
+import { getShopifyProducts, mapShopifyToLocalProduct, getShopifyCollections, mapShopifyToLocalCategory } from '../lib/shopify-products'
 import './HomePage.css'
 
 export default function HomePage() {
-    const bestsellers = getBestsellers()
-    const newProducts = getNewProducts()
+    const [bestsellers, setBestsellers] = useState<Product[]>([])
+    const [dynamicCategories, setDynamicCategories] = useState<Category[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        async function fetchInitialData() {
+            try {
+                // Fetch bestsellers
+                const shopifyData = await getShopifyProducts(4)
+                const localizedProducts = shopifyData.map(mapShopifyToLocalProduct)
+                setBestsellers(localizedProducts)
+
+                // Fetch categories
+                const shopifyCollections = await getShopifyCollections(8)
+                setDynamicCategories(shopifyCollections.map(mapShopifyToLocalCategory))
+            } catch (error) {
+                console.error("Failed to fetch Shopify data for Homepage", error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchInitialData()
+    }, [])
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -108,7 +132,7 @@ export default function HomePage() {
                         <p>Trouvez les compléments adaptés à vos besoins</p>
                     </div>
                     <div className="categories__grid">
-                        {categories.map((cat, index) => (
+                        {dynamicCategories.map((cat, index) => (
                             <motion.div
                                 key={cat.id}
                                 initial={{ opacity: 0, y: 20 }}
@@ -153,11 +177,21 @@ export default function HomePage() {
                         animate="visible"
                         viewport={{ once: true }}
                     >
-                        {bestsellers.map((product, index) => (
-                            <motion.div key={product.id} variants={itemVariants}>
-                                <ProductCard product={product} index={index} />
-                            </motion.div>
-                        ))}
+                        {loading ? (
+                            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '2rem', color: 'var(--color-text-light)' }}>
+                                Chargement des produits depuis Shopify...
+                            </div>
+                        ) : bestsellers.length > 0 ? (
+                            bestsellers.map((product, index) => (
+                                <motion.div key={product.id} variants={itemVariants}>
+                                    <ProductCard product={product} index={index} />
+                                </motion.div>
+                            ))
+                        ) : (
+                            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '2rem' }}>
+                                <p>Aucun produit disponible sur la boutique pour le moment.</p>
+                            </div>
+                        )}
                     </motion.div>
                     <div className="section-cta">
                         <Link to="/produits" className="btn btn-secondary">
@@ -167,35 +201,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            <div className="section-divider"></div>
 
-            {/* New Products Section */}
-            {newProducts.length > 0 && (
-                <>
-                    <section className="section new-products">
-                        <div className="container">
-                            <div className="section-title">
-                                <h2>Les <span className="text-amber">Nouveautés</span></h2>
-                                <p>Découvrez nos dernières arrivées</p>
-                            </div>
-                            <motion.div
-                                className="products-grid grid grid-4"
-                                variants={containerVariants}
-                                initial="visible"
-                                animate="visible"
-                                viewport={{ once: true }}
-                            >
-                                {newProducts.map((product, index) => (
-                                    <motion.div key={product.id} variants={itemVariants}>
-                                        <ProductCard product={product} index={index} />
-                                    </motion.div>
-                                ))}
-                            </motion.div>
-                        </div>
-                    </section>
-                    <div className="section-divider"></div>
-                </>
-            )}
 
             {/* Click & Collect Section */}
             <section className="section click-collect section-alt">

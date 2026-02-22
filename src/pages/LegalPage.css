@@ -1,41 +1,40 @@
 /* Main container for legal pages */
 .legal-page {
     padding-top: 20px;
-    /* Space for fixed header (80px) + 20px breathing room */
     padding-bottom: var(--space-4xl);
     min-height: 80vh;
     max-width: 800px;
-    /* Limit width for readability */
     margin: 0 auto;
-    /* Center content */
 }
 
 /* Page Title h1 */
 .legal-page h1 {
+    font-family: var(--font-display);
     font-size: var(--font-size-3xl);
     margin-bottom: var(--space-xl);
-    /* Reduced from 2xl */
     padding-bottom: var(--space-md);
     color: var(--color-green-bright);
     text-transform: uppercase;
-    border-bottom: 1px solid var(--color-concrete-light);
+    border-bottom: 1px dashed var(--glass-border);
 }
 
 /* Sections */
 .legal-section {
     margin-bottom: var(--space-xl);
-    padding: var(--space-lg);
-    background: var(--color-bg-elevated);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-concrete-light);
+    padding: var(--space-xl);
+    background: rgba(20, 21, 23, 0.4);
+    backdrop-filter: var(--glass-blur);
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
 }
 
 .legal-section h2 {
-    font-size: var(--font-size-lg);
-    /* Slightly smaller h2 */
+    font-family: var(--font-display);
+    font-size: var(--font-size-xl);
     margin-bottom: var(--space-md);
     color: var(--color-text);
-    border-left: 3px solid var(--color-green);
+    border-left: 3px solid var(--color-green-bright);
     padding-left: var(--space-md);
 }
 
@@ -43,7 +42,6 @@
 .legal-section li {
     font-size: var(--font-size-md);
     color: var(--color-text-secondary);
-    /* Back to secondary for better hierarchy, but ensured visible in theme */
     line-height: 1.7;
     margin-bottom: var(--space-sm);
 }

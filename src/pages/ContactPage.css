@@ -14,19 +14,17 @@
 }
 
 .contact-header h1 {
-    font-size: var(--font-size-4xl);
-    margin-bottom: var(--space-md);
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: var(--space-sm);
+    color: var(--color-text);
 }
 
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
-    gap: var(--space-2xl);
+    gap: var(--space-3xl);
     grid-template-areas:
         "info form"
         "map form";
@@ -37,27 +35,27 @@
    ============================================= */
 .contact-info-card {
     grid-area: info;
-    background: var(--glass-bg);
+    background: rgba(20, 21, 23, 0.4);
     backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-2xl);
     padding: var(--space-xl);
-    box-shadow: var(--glass-shadow);
+    box-shadow: var(--shadow-lg);
     transition: all var(--transition-base);
 }
 
 .contact-info-card:hover {
-    border-color: rgba(74, 124, 35, 0.25);
-    box-shadow: 0 8px 32px rgba(74, 124, 35, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: var(--shadow-xl);
 }
 
 .contact-info-card h2 {
+    font-family: var(--font-display);
     font-size: var(--font-size-2xl);
     margin-bottom: var(--space-xl);
-    color: var(--color-primary);
-    padding-bottom: var(--space-sm);
-    border-bottom: 1px solid var(--glass-border);
+    color: var(--color-green-bright);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px dashed var(--glass-border);
 }
 
 .contact-item {
@@ -68,35 +66,36 @@
 
 .contact-icon {
     font-size: 1.8rem;
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--glass-bg-dark);
-    border: 1px solid var(--glass-border);
+    background: rgba(129, 193, 75, 0.05);
+    border: 1px solid rgba(129, 193, 75, 0.2);
     border-radius: var(--radius-lg);
-    color: var(--color-primary);
+    color: var(--color-green-bright);
+    box-shadow: inset 0 0 10px rgba(129, 193, 75, 0.1);
 }
 
 .contact-details h3 {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--color-text-secondary);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
 }
 
 .contact-details p {
     font-size: var(--font-size-lg);
-    color: var(--color-text-primary);
+    color: var(--color-text);
     line-height: 1.4;
     margin: 0;
 }
 
 .contact-hours {
-    color: var(--color-primary) !important;
-    font-weight: 700;
+    color: var(--color-green-bright) !important;
+    font-weight: 500;
 }
 
 /* ============================================= 
@@ -104,11 +103,14 @@
    ============================================= */
 .contact-map-container {
     grid-area: map;
-    min-height: 300px;
-    background: var(--glass-bg-dark);
+    min-height: 350px;
+    background: rgba(20, 21, 23, 0.4);
+    backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-2xl);
     overflow: hidden;
+    position: relative;
+    box-shadow: var(--shadow-sm);
 }
 
 /* ============================================= 
@@ -116,19 +118,19 @@
    ============================================= */
 .contact-form-container {
     grid-area: form;
-    background: var(--glass-bg);
+    background: rgba(20, 21, 23, 0.4);
     backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-2xl);
     padding: var(--space-xl);
-    box-shadow: var(--glass-shadow);
+    box-shadow: var(--shadow-lg);
 }
 
 .contact-form-container h2 {
+    font-family: var(--font-display);
     font-size: var(--font-size-2xl);
     margin-bottom: var(--space-xl);
-    color: var(--color-text-primary);
+    color: var(--color-text);
 }
 
 .form-group {
@@ -142,7 +144,7 @@
     font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-size: var(--text-sm);
+    font-size: var(--font-size-xs);
 }
 
 .form-group input,
@@ -150,21 +152,22 @@
 .form-group textarea {
     width: 100%;
     padding: var(--space-md);
-    background: var(--glass-bg-light);
+    background: rgba(0, 0, 0, 0.2);
     border: 1px solid var(--glass-border);
-    color: var(--color-text-primary);
-    border-radius: var(--radius-lg);
+    color: var(--color-text);
+    border-radius: var(--radius-md);
     font-family: var(--font-body);
+    font-size: var(--font-size-base);
     transition: all var(--transition-fast);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-    border-color: var(--color-primary);
-    background: var(--glass-bg-dark);
+    border-color: var(--color-green-bright);
+    background: rgba(30, 31, 34, 0.8);
     outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.2);
+    box-shadow: 0 0 0 2px rgba(129, 193, 75, 0.15);
 }
 
 .form-group select {

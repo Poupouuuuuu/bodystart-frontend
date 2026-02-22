@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 import { useWishlist } from '../context/WishlistContext'
-import { categories } from '../data/products'
+import type { Category } from '../data/products'
+import { getShopifyCollections, mapShopifyToLocalCategory } from '../lib/shopify-products'
 import './Header.css'
 
 export default function Header() {
@@ -17,11 +18,25 @@ export default function Header() {
     const { totalItems } = useCart()
     const { wishlist } = useWishlist()
     const { user, isAuthenticated, logout } = useAuth()
+    const [dynamicCategories, setDynamicCategories] = useState<Category[]>([])
     const location = useLocation()
     const cartCount = totalItems
     const wishlistCount = wishlist.length
 
     const userMenuRef = useRef<HTMLDivElement>(null)
+
+    // Fetch dynamic categories for navigation
+    useEffect(() => {
+        async function fetchInitialCategories() {
+            try {
+                const shopifyCollections = await getShopifyCollections(10)
+                setDynamicCategories(shopifyCollections.map(mapShopifyToLocalCategory))
+            } catch (error) {
+                console.error("Failed to fetch Shopify categories for Header", error)
+            }
+        }
+        fetchInitialCategories()
+    }, [])
 
     const isActive = (path: string) => location.pathname === path
 
@@ -108,7 +123,7 @@ export default function Header() {
                                         </Link>
                                         <div className="header__dropdown-divider"></div>
                                         <div className="header__dropdown-grid">
-                                            {categories.map(cat => (
+                                            {dynamicCategories.map(cat => (
                                                 <Link
                                                     key={cat.id}
                                                     to={`/produits/${cat.id}`}
@@ -296,7 +311,7 @@ export default function Header() {
                             <Link to="/" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
                             <Link to="/produits" onClick={() => setIsMenuOpen(false)}>Produits</Link>
                             <div className="header__mobile-categories">
-                                {categories.map(cat => (
+                                {dynamicCategories.map(cat => (
                                     <Link
                                         key={cat.id}
                                         to={`/produits/${cat.id}`}

@@ -1,8 +1,9 @@
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { getProductById, products } from '../data/products'
+import type { Product } from '../data/products'
+import { products } from '../data/products'
+import { getShopifyProduct, mapShopifyToLocalProduct } from '../lib/shopify-products'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { useToast } from '../context/ToastContext'
@@ -11,8 +12,29 @@ import './ProductDetailPage.css'
 
 export default function ProductDetailPage() {
     const { id } = useParams()
+    const [product, setProduct] = useState<Product | null>(null)
+    const [loading, setLoading] = useState(true)
 
-    const product = getProductById(id || '')
+    useEffect(() => {
+        async function fetchProduct() {
+            setLoading(true)
+            try {
+                if (id) {
+                    const shopifyData = await getShopifyProduct(id)
+                    if (shopifyData) {
+                        setProduct(mapShopifyToLocalProduct(shopifyData))
+                    } else {
+                        setProduct(null)
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to fetch Shopify product:", error)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchProduct()
+    }, [id])
 
     const { addToCart } = useCart()
     const { toggleWishlist, isInWishlist } = useWishlist()
@@ -67,12 +89,22 @@ export default function ProductDetailPage() {
     }
 
 
+    if (loading) {
+        return (
+            <div className="product-detail not-found">
+                <div className="container" style={{ textAlign: 'center', padding: '5rem 0' }}>
+                    <h2 style={{ color: 'var(--color-primary)' }}>Chargement du produit...</h2>
+                </div>
+            </div>
+        )
+    }
+
     if (!product) {
         return (
             <div className="product-detail not-found">
                 <div className="container">
                     <h1>Produit non trouvé</h1>
-                    <p>Le produit que vous recherchez n'existe pas.</p>
+                    <p>Le produit que vous recherchez n'existe pas ou n'est plus disponible sur notre boutique Shopify.</p>
                     <Link to="/produits" className="btn btn-primary">
                         Voir tous les produits
                     </Link>
@@ -86,6 +118,7 @@ export default function ProductDetailPage() {
         .slice(0, 4)
 
     const handleAddToCart = () => {
+        if (!product) return;
         for (let i = 0; i < quantity; i++) {
             addToCart({
                 id: product.id,
@@ -93,6 +126,7 @@ export default function ProductDetailPage() {
                 brand: product.brand,
                 price: product.price,
                 image: activeImage || product.image, // Use active image in cart
+                variantId: product.variantId,
             })
         }
     }

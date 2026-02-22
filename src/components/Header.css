@@ -1,15 +1,22 @@
 /* =============================================
-   HEADER - Industrial Urban Jungle Style
+   HEADER - Premium Industrial Design
    ============================================= */
 
 .header {
     position: sticky;
     top: 0;
     z-index: var(--z-sticky);
-    background: var(--glass-bg-dark);
+    background: rgba(10, 10, 11, 0.75);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border-bottom: 2px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    transition: background var(--transition-base), border-color var(--transition-base);
+}
+
+.header.scrolled {
+    background: rgba(10, 10, 11, 0.95);
+    border-bottom-color: rgba(129, 193, 75, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
 .version-check {
@@ -22,7 +29,7 @@
 
 /* Top Bar / Static */
 .header__marquee {
-    height: 38px;
+    height: 30px;
     background: var(--color-green-bright);
     display: flex;
     justify-content: center;
@@ -42,9 +49,9 @@
     color: #000;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     /* Standard sharp font */
-    font-weight: 800;
-    /* Extra bold */
-    font-size: 0.8rem;
+    font-weight: 700;
+    /* Bold */
+    font-size: 0.7rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     text-shadow: none;
@@ -69,7 +76,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 90px;
+    height: 70px;
     max-width: 90vw;
     width: 100%;
 }
@@ -89,7 +96,7 @@
 }
 
 .header__logo img {
-    height: 60px;
+    height: 48px;
     width: auto;
     object-fit: contain;
 }
@@ -113,7 +120,7 @@
 .header__nav {
     display: flex;
     align-items: center;
-    gap: 3rem;
+    gap: var(--space-8);
 }
 
 .header__link {
@@ -121,12 +128,13 @@
     align-items: center;
     gap: var(--space-xs);
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1rem;
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-text-secondary);
     text-decoration: none;
-    padding: var(--space-sm) 0;
+    padding: var(--space-xs) 0;
     position: relative;
     transition: color var(--transition-fast);
 }
@@ -139,7 +147,7 @@
 
 .header__link:hover,
 .header__link.active {
-    color: var(--color-green-bright);
+    color: var(--color-text);
 }
 
 .header__link::after {
@@ -149,8 +157,9 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--color-green-bright);
+    background: var(--gradient-text);
     transition: width var(--transition-base);
+    box-shadow: 0 0 10px var(--color-green-glow);
 }
 
 .header__link:hover::after,
@@ -179,11 +188,13 @@
 }
 
 .header__dropdown-content {
-    background: var(--color-metal);
-    border: 2px solid var(--color-concrete-light);
+    background: var(--glass-bg-dark);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-strong);
     border-radius: var(--radius-md);
     padding: var(--space-lg);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-xl);
 }
 
 .header__dropdown-all {
@@ -193,11 +204,12 @@
     padding: var(--space-md);
     font-family: var(--font-display);
     font-size: var(--font-size-md);
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-green-bright);
     text-decoration: none;
-    background: var(--color-concrete-dark);
+    background: rgba(255, 255, 255, 0.03);
     border-radius: var(--radius-sm);
     transition: all var(--transition-fast);
 }
@@ -205,16 +217,21 @@
 .header__dropdown-all svg {
     width: 18px;
     height: 18px;
+    transition: transform var(--transition-fast);
 }
 
 .header__dropdown-all:hover {
-    background: var(--color-green);
-    color: var(--color-warm-white);
+    background: rgba(129, 193, 75, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(129, 193, 75, 0.2);
+}
+
+.header__dropdown-all:hover svg {
+    transform: translateX(4px);
 }
 
 .header__dropdown-divider {
     height: 1px;
-    background: var(--color-concrete-light);
+    background: var(--color-border);
     margin: var(--space-md) 0;
 }
 
@@ -230,6 +247,7 @@
     gap: var(--space-sm);
     padding: var(--space-sm) var(--space-md);
     font-size: var(--font-size-sm);
+    font-weight: 500;
     color: var(--color-text-secondary);
     text-decoration: none;
     border-radius: var(--radius-sm);
@@ -237,7 +255,7 @@
 }
 
 .header__dropdown-item:hover {
-    background: var(--color-concrete-dark);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--color-text);
 }
 
@@ -269,14 +287,20 @@
     width: 100%;
     height: 44px;
     padding: 0 16px;
-    background: var(--color-metal);
-    border: 1px solid var(--color-green);
-    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border-hover);
+    border-radius: var(--radius-full);
     color: var(--color-text);
     font-family: var(--font-body);
     font-size: var(--font-size-sm);
     outline: none;
-    box-shadow: 0 0 10px rgba(74, 124, 35, 0.2);
+    transition: all var(--transition-fast);
+}
+
+.header__search-input:focus {
+    border-color: var(--color-green-bright);
+    box-shadow: 0 0 15px rgba(129, 193, 75, 0.15);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .header__action-btn,
@@ -286,32 +310,35 @@
     justify-content: center;
     width: 44px;
     height: 44px;
-    background: transparent;
-    border: 2px solid var(--color-concrete-light);
-    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
     color: var(--color-text-secondary);
     cursor: pointer;
     position: relative;
     transition: all var(--transition-fast);
+    backdrop-filter: var(--glass-blur);
 }
 
 .header__action-btn.active {
-    background: var(--color-green);
-    border-color: var(--color-green);
-    color: var(--color-warm-white);
+    background: rgba(129, 193, 75, 0.1);
+    border-color: var(--color-green-bright);
+    color: var(--color-green-bright);
+    box-shadow: inset 0 0 0 1px rgba(129, 193, 75, 0.2);
 }
 
 .header__action-btn svg,
 .header__cart-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 .header__action-btn:hover,
 .header__cart-btn:hover {
-    border-color: var(--color-green);
-    color: var(--color-green-bright);
-    box-shadow: var(--shadow-glow-green);
+    border-color: var(--color-border-hover);
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
 }
 
 .header__cart-badge {
@@ -342,9 +369,9 @@
     width: 44px;
     height: 44px;
     padding: 10px;
-    background: transparent;
-    border: 2px solid var(--color-concrete-light);
-    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
     cursor: pointer;
 }
 
@@ -373,8 +400,9 @@
    ============================================= */
 .header__mobile-menu {
     display: none;
-    background: var(--color-metal);
-    border-top: 1px solid var(--color-concrete-light);
+    background: rgba(10, 10, 11, 0.98);
+    backdrop-filter: var(--glass-blur);
+    border-top: 1px solid var(--glass-border);
     overflow: hidden;
 }
 

@@ -26,6 +26,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             brand: product.brand,
             price: product.price,
             image: product.image,
+            variantId: product.variantId,
         })
         addToast(`${product.name} ajouté au panier`, 'success')
     }

@@ -13,19 +13,20 @@
 .toast {
     pointer-events: auto;
     /* Re-enable clicks on toasts */
-    min-width: 300px;
-    max-width: 400px;
-    background: var(--glass-bg);
+    min-width: 320px;
+    max-width: 450px;
+    background: rgba(20, 21, 23, 0.85);
+    /* Darker, slightly more opaque glass */
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    /* Safari support */
     border: 1px solid var(--glass-border);
-    padding: var(--space-4);
-    border-radius: var(--radius-lg);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: flex-start;
-    gap: var(--space-4);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    gap: var(--space-md);
+    box-shadow: var(--shadow-xl);
+    /* Stronger premium shadow */
     overflow: hidden;
     position: relative;
     color: var(--color-text);
@@ -42,27 +43,33 @@
 
 /* Variants */
 .toast--success::before {
-    background: var(--color-primary);
+    background: linear-gradient(180deg, var(--color-green-bright), var(--color-green-dark));
+    box-shadow: 0 0 15px var(--color-green-glow);
 }
 
 .toast--success .toast__icon {
-    color: var(--color-primary);
+    color: var(--color-green-bright);
+    filter: drop-shadow(0 0 5px var(--color-green-glow));
 }
 
 .toast--error::before {
-    background: var(--color-error);
+    background: linear-gradient(180deg, var(--color-error), #8B0000);
+    box-shadow: 0 0 15px rgba(255, 61, 0, 0.4);
 }
 
 .toast--error .toast__icon {
     color: var(--color-error);
+    filter: drop-shadow(0 0 5px rgba(255, 61, 0, 0.4));
 }
 
 .toast--info::before {
-    background: var(--color-secondary);
+    background: linear-gradient(180deg, var(--color-info), #005A9E);
+    box-shadow: 0 0 15px rgba(0, 176, 255, 0.4);
 }
 
 .toast--info .toast__icon {
-    color: var(--color-secondary);
+    color: var(--color-info);
+    filter: drop-shadow(0 0 5px rgba(0, 176, 255, 0.4));
 }
 
 .toast__icon {
@@ -79,10 +86,11 @@
 
 .toast__message {
     flex: 1;
-    font-size: var(--text-sm);
+    font-size: var(--font-size-sm);
     line-height: 1.5;
     margin: 0;
     color: var(--color-text);
+    padding-top: 2px;
 }
 
 .toast__close {
