@@ -238,7 +238,7 @@ export default function ProductDetailPage() {
                                         displayPrice = flavorObj.price;
                                     }
                                 }
-                                return displayPrice.toFixed(2);
+                                return (displayPrice * quantity).toFixed(2);
                             })()} €
                         </span>
                         <span className="product-detail__tax-note">Taxes incluses. Frais d'expédition calculés à l'étape de paiement.</span>
