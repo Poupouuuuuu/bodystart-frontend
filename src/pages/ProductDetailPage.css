@@ -101,8 +101,10 @@
 .product-detail__info {
     display: flex;
     flex-direction: column;
-    gap: var(--space-lg);
-    padding: var(--space-xl);
+    gap: var(--space-md);
+    /* Reduced from lg */
+    padding: var(--space-lg);
+    /* Reduced from xl */
     background: rgba(20, 21, 23, 0.6);
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border-strong);
@@ -120,11 +122,10 @@
 
 .product-detail__title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    /* Slightly smaller max size to reduce overwhelming text */
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
     line-height: 1.1;
     color: var(--color-text);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 0;
 }
 
 /* Weight Badge */
@@ -132,7 +133,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-md);
-    margin-bottom: var(--space-sm);
+    margin-bottom: 0;
 }
 
 .product-detail__weight-badge {
@@ -163,13 +164,15 @@
     display: flex;
     align-items: baseline;
     gap: var(--space-md);
-    padding-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    /* Reduced from md */
     border-bottom: 1px solid var(--glass-border);
 }
 
 .product-detail__price {
     font-family: var(--font-display);
-    font-size: var(--font-size-4xl);
+    font-size: var(--font-size-3xl);
+    /* Reduced from 4xl */
     color: var(--color-text);
     white-space: nowrap;
 }
@@ -230,15 +233,18 @@
 .product-detail__highlights {
     list-style: none;
     padding: 0;
-    margin: var(--space-sm) 0 var(--space-lg);
+    margin: 0 0 var(--space-sm);
+    /* Reduced margin */
 }
 
 .product-detail__highlights li {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    margin-bottom: var(--space-sm);
-    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-xs);
+    /* Reduced margin */
+    font-size: 0.85rem;
+    /* Smaller font size */
     color: var(--color-text);
 }
 
@@ -250,7 +256,8 @@
 
 /* Selectors (Flavor & Weight) */
 .product-detail__selector-group {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
+    /* Reduced from lg */
 }
 
 .product-detail__label {
@@ -266,13 +273,16 @@
 .flavor-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-sm);
+    gap: 6px;
+    /* Reduced gap */
     justify-content: flex-start;
 }
 
 .flavor-btn {
-    padding: var(--space-xs) var(--space-md);
-    min-width: 120px;
+    padding: 6px 12px;
+    /* Smaller padding */
+    min-width: 100px;
+    /* Reduced min-width */
     text-align: center;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--glass-border);

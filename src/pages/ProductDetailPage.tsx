@@ -226,9 +226,7 @@ export default function ProductDetailPage() {
                         )}
                     </div>
 
-                    <p className="product-detail__short-desc">
-                        {product.description.split('.')[0]}.
-                    </p>
+
 
                     <div className="product-detail__pricing">
                         <span className="product-detail__price">
