@@ -16,7 +16,7 @@ export interface Product {
     highlights?: string[]
     keywords?: string[]
     tags?: string[]
-    flavors?: (string | { name: string; image?: string; id?: string; price?: number })[]
+    flavors?: (string | { name: string; image?: string; id?: string; price?: number; weight?: number; weightUnit?: string })[]
     metafieldNutrition?: string
     metafieldUsage?: string
     metafieldComposition?: string

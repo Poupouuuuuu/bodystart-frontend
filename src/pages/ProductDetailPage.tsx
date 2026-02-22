@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { Product } from '../data/products'
 import { products } from '../data/products'
-import { getShopifyProduct, mapShopifyToLocalProduct } from '../lib/shopify-products'
+import { getShopifyProduct, getShopifyProducts, mapShopifyToLocalProduct } from '../lib/shopify-products'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { useToast } from '../context/ToastContext'
@@ -13,7 +13,7 @@ import './ProductDetailPage.css'
 // Helper to parse the plain text metafield into a structured object for the table
 function parseNutritionMetafield(text?: string) {
     if (!text) return null;
-    
+
     const extract = (regex: RegExp) => {
         const match = text.match(regex);
         return match ? match[1].trim() : '-';
@@ -31,7 +31,7 @@ function parseNutritionMetafield(text?: string) {
     const salt = extract(/Sel\s*:\s*([^\n]+)/i);
 
     // Aminogram parsing
-    const aminogram: {label: string, value: string}[] = [];
+    const aminogram: { label: string, value: string }[] = [];
     const lines = text.split('\n');
     let isAminogramSection = false;
     for (const line of lines) {
@@ -217,12 +217,6 @@ export default function ProductDetailPage() {
                     animate={{ opacity: 1, x: 0 }}
                 >
                     <div className="product-detail__image-main">
-                        {product.isBestseller && (
-                            <span className="badge badge-success">Bestseller</span>
-                        )}
-                        {product.isNew && (
-                            <span className="badge badge-warning">Nouveau</span>
-                        )}
                         <img key={activeImage} src={activeImage || product.image} alt={product.name} />
                     </div>
                     {/* Flavour Thumbnails Placeholder */}
@@ -494,7 +488,7 @@ export default function ProductDetailPage() {
                                                     </table>
                                                 </div>
                                             )}
-                
+
                                             {aminogramData && (
                                                 <div>
                                                     <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>Aminogramme Moyen (Pour {product.aminogramPortion || '100 g'})</h4>

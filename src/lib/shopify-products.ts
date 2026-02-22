@@ -35,6 +35,8 @@ export interface ShopifyProduct {
           currencyCode: string;
         };
         availableForSale: boolean;
+        weight?: number;
+        weightUnit?: string;
         image: {
           url: string;
         } | null;
@@ -93,6 +95,8 @@ const GET_PRODUCTS_QUERY = `
                   amount
                   currencyCode
                 }
+                weight
+                weightUnit
                 image {
                   url
                 }
@@ -160,6 +164,8 @@ const GET_PRODUCT_QUERY = `
               amount
               currencyCode
             }
+            weight
+            weightUnit
             image {
               url
             }
@@ -181,6 +187,7 @@ export async function getShopifyProduct(handle: string): Promise<ShopifyProduct 
 
 // Convert Shopify product format to our local Product format
 import type { Product, Category } from '../data/products';
+import { products } from '../data/products';
 
 export interface ShopifyCollection {
   id: string;
@@ -265,6 +272,8 @@ const GET_COLLECTION_PRODUCTS_QUERY = `
                     amount
                     currencyCode
                   }
+                  weight
+                  weightUnit
                   image {
                     url
                   }
@@ -301,13 +310,18 @@ export function mapShopifyToLocalProduct(sp: ShopifyProduct): Product {
   const mainImage = sp.featuredImage?.url || images[0] || '/images/products/placeholder.png';
 
   // Process variants to build the flavors list
+  const mockProduct = products.find(p => p.id === sp.handle || p.name.toLowerCase() === sp.title.toLowerCase());
+
   const flavors = sp.variants?.edges.map(e => {
     const v = e.node;
+    const mockFlavor = mockProduct?.flavors?.find(f => (typeof f === 'object' ? f.name : f) === v.title);
     return {
       name: v.title !== 'Default Title' ? v.title : 'Standard',
       image: v.image?.url,
       id: v.id,
-      price: parseFloat(v.price.amount)
+      price: parseFloat(v.price.amount),
+      weight: (v.weight ?? 0) > 0 ? v.weight : (typeof mockFlavor === 'object' ? mockFlavor.weight : undefined),
+      weightUnit: (v.weight ?? 0) > 0 ? v.weightUnit : (typeof mockFlavor === 'object' ? mockFlavor.weightUnit : undefined)
     };
   }) || [];
 
@@ -324,9 +338,10 @@ export function mapShopifyToLocalProduct(sp: ShopifyProduct): Product {
     metafieldUsage: sp.conseilsUtilisation?.value,
     metafieldComposition: sp.composition?.value,
     inStock: isAvailable,
-    isNew: true,
-    isBestseller: true,
+    isNew: false,
+    isBestseller: mockProduct?.isBestseller || false,
     variantId: variantId,
+    weight: (firstVariant?.weight && firstVariant.weight > 0) ? `${firstVariant.weight} ${firstVariant.weightUnit || 'kg'}` : mockProduct?.weight,
     flavors: flavors.length > 0 && flavors[0].name !== 'Standard' ? flavors : undefined,
   };
 }
