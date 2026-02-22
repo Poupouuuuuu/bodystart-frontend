@@ -10,6 +10,59 @@ import { useToast } from '../context/ToastContext'
 import ProductCard from '../components/ProductCard'
 import './ProductDetailPage.css'
 
+// Helper to parse the plain text metafield into a structured object for the table
+function parseNutritionMetafield(text?: string) {
+    if (!text) return null;
+    
+    const extract = (regex: RegExp) => {
+        const match = text.match(regex);
+        return match ? match[1].trim() : '-';
+    };
+
+    const portionMatch = text.match(/pour (.*?)\)|pour (.*?):/i);
+    const portion = portionMatch ? (portionMatch[1] || portionMatch[2]).trim() : '30g';
+
+    const energy = extract(/(?:Énergie|Energie|Energy)\s*:\s*([^\n]+)/i);
+    const fats = extract(/Matières grasses\s*:\s*([^(\n]+)/i);
+    const fatsSat = extract(/saturés\s*:\s*([^)\n]+)/i);
+    const carbs = extract(/Glucides\s*:\s*([^(\n]+)/i);
+    const carbsSugar = extract(/sucres\s*:\s*([^)\n]+)/i);
+    const protein = extract(/Protéines\s*:\s*([^(\n]+)/i);
+    const salt = extract(/Sel\s*:\s*([^\n]+)/i);
+
+    // Aminogram parsing
+    const aminogram: {label: string, value: string}[] = [];
+    const lines = text.split('\n');
+    let isAminogramSection = false;
+    for (const line of lines) {
+        if (line.toLowerCase().includes('aminogramme')) {
+            isAminogramSection = true;
+            continue;
+        }
+        if (isAminogramSection && line.includes(':')) {
+            const [label, ...valueParts] = line.split(':');
+            const value = valueParts.join(':');
+            if (label && value) {
+                aminogram.push({ label: label.replace(/^-/, '').trim(), value: value.trim() });
+            }
+        }
+    }
+
+    if (energy === '-' && protein === '-') return null;
+
+    return {
+        portion,
+        energy,
+        fats,
+        fatsSaturated: fatsSat !== '-' ? fatsSat : '',
+        carbs,
+        carbsSugar: carbsSugar !== '-' ? carbsSugar : '',
+        protein,
+        salt,
+        aminogram: aminogram.length > 0 ? aminogram : undefined
+    };
+}
+
 export default function ProductDetailPage() {
     const { id } = useParams()
     const [product, setProduct] = useState<Product | null>(null)
@@ -394,67 +447,75 @@ export default function ProductDetailPage() {
 
                     {activeTab === 'nutrition' && (
                         <div className="tab-panel">
-                            {product.metafieldNutrition ? (
-                                <div dangerouslySetInnerHTML={{ __html: product.metafieldNutrition.replace(/\n/g, '<br />') }} />
-                            ) : (product.nutritionalValues || product.aminogram) ? (
-                                <>
-                                    {product.nutritionalValues && (
-                                        <div style={{ marginBottom: '2rem' }}>
-                                            <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
-                                                Apports nutritionnels {product.nutritionalValues.energy100g ? '' : `(pour ${product.nutritionalValues.portion})`}
-                                            </h4>
-                                            <table className="nutrition-table" style={{ width: '100%', maxWidth: '600px', borderCollapse: 'collapse', color: 'var(--color-text-secondary)' }}>
-                                                {product.nutritionalValues.energy100g ? (
-                                                    <>
-                                                        <thead>
-                                                            <tr style={{ borderBottom: '1px solid var(--glass-border)', textAlign: 'right' }}>
-                                                                <th style={{ textAlign: 'left', paddingBottom: '8px' }}>Valeurs</th>
-                                                                <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour 100g</th>
-                                                                <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour {product.nutritionalValues.portion}</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy}</td></tr>
-                                                            <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats}</td></tr>
-                                                            <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated}</td></tr>
-                                                            <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs}</td></tr>
-                                                            <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar}</td></tr>
-                                                            <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein}</td></tr>
-                                                            <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt}</td></tr>
-                                                        </tbody>
-                                                    </>
-                                                ) : (
-                                                    <tbody>
-                                                        <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy}</td></tr>
-                                                        <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats}</td></tr>
-                                                        <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated}</td></tr>
-                                                        <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs}</td></tr>
-                                                        <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar}</td></tr>
-                                                        <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein}</td></tr>
-                                                        <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt}</td></tr>
-                                                    </tbody>
-                                                )}
-                                            </table>
-                                        </div>
-                                    )}
+                            {(() => {
+                                const parsedMetafield = parseNutritionMetafield(product.metafieldNutrition);
+                                const nutritionData = parsedMetafield || product.nutritionalValues;
+                                const aminogramData = parsedMetafield?.aminogram || product.aminogram;
 
-                                    {product.aminogram && (
-                                        <div>
-                                            <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>Aminogramme Moyen (Pour {product.aminogramPortion || '100 g'})</h4>
-                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
-                                                {product.aminogram.map((amino, idx) => (
-                                                    <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
-                                                        <span>{amino.label}</span>
-                                                        <span style={{ color: 'var(--color-text-primary)' }}>{amino.value}</span>
+                                if (nutritionData || aminogramData) {
+                                    return (
+                                        <>
+                                            {nutritionData && (
+                                                <div style={{ marginBottom: '2rem' }}>
+                                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
+                                                        Apports nutritionnels {nutritionData.energy100g ? '' : `(pour ${nutritionData.portion})`}
+                                                    </h4>
+                                                    <table className="nutrition-table" style={{ width: '100%', maxWidth: '600px', borderCollapse: 'collapse', color: 'var(--color-text-secondary)' }}>
+                                                        {nutritionData.energy100g ? (
+                                                            <>
+                                                                <thead>
+                                                                    <tr style={{ borderBottom: '1px solid var(--glass-border)', textAlign: 'right' }}>
+                                                                        <th style={{ textAlign: 'left', paddingBottom: '8px' }}>Valeurs</th>
+                                                                        <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour 100g</th>
+                                                                        <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour {nutritionData.portion}</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{nutritionData.energy100g}</td><td style={{ textAlign: 'right' }}>{nutritionData.energy}</td></tr>
+                                                                    <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{nutritionData.fats100g}</td><td style={{ textAlign: 'right' }}>{nutritionData.fats}</td></tr>
+                                                                    <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{nutritionData.fatsSaturated100g}</td><td style={{ textAlign: 'right' }}>{nutritionData.fatsSaturated}</td></tr>
+                                                                    <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{nutritionData.carbs100g}</td><td style={{ textAlign: 'right' }}>{nutritionData.carbs}</td></tr>
+                                                                    <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{nutritionData.carbsSugar100g}</td><td style={{ textAlign: 'right' }}>{nutritionData.carbsSugar}</td></tr>
+                                                                    <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{nutritionData.protein100g}</td><td style={{ textAlign: 'right' }}>{nutritionData.protein}</td></tr>
+                                                                    <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{nutritionData.salt100g}</td><td style={{ textAlign: 'right' }}>{nutritionData.salt}</td></tr>
+                                                                </tbody>
+                                                            </>
+                                                        ) : (
+                                                            <tbody>
+                                                                <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{nutritionData.energy}</td></tr>
+                                                                <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{nutritionData.fats}</td></tr>
+                                                                <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{nutritionData.fatsSaturated}</td></tr>
+                                                                <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{nutritionData.carbs}</td></tr>
+                                                                <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{nutritionData.carbsSugar}</td></tr>
+                                                                <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{nutritionData.protein}</td></tr>
+                                                                <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{nutritionData.salt}</td></tr>
+                                                            </tbody>
+                                                        )}
+                                                    </table>
+                                                </div>
+                                            )}
+                
+                                            {aminogramData && (
+                                                <div>
+                                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>Aminogramme Moyen (Pour {product.aminogramPortion || '100 g'})</h4>
+                                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
+                                                        {aminogramData.map((amino: any, idx: number) => (
+                                                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
+                                                                <span>{amino.label}</span>
+                                                                <span style={{ color: 'var(--color-text-primary)' }}>{amino.value}</span>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-                                </>
-                            ) : (
-                                <p>Informations nutritionnelles non disponibles.</p>
-                            )}
+                                                </div>
+                                            )}
+                                        </>
+                                    );
+                                } else if (product.metafieldNutrition) {
+                                    return <div dangerouslySetInnerHTML={{ __html: product.metafieldNutrition.replace(/\n/g, '<br />') }} />;
+                                } else {
+                                    return <p>Informations nutritionnelles non disponibles.</p>;
+                                }
+                            })()}
                         </div>
                     )}
 
