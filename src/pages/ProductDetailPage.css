@@ -43,9 +43,12 @@
 /* Content */
 .product-detail__content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.3fr;
+    /* Give more width to the info section */
     gap: var(--space-4xl);
     padding: var(--space-xl) var(--space-xl);
+    align-items: start;
+    /* Ensure neither side stretches vertically if not needed */
 }
 
 /* Gallery */
@@ -58,8 +61,10 @@
 .product-detail__image-main {
     position: relative;
     aspect-ratio: 1;
-    max-height: 550px;
-    /* Prevent huge scaling on big screens */
+    max-height: 750px;
+    /* Increased to allow a larger presence on desktop */
+    width: 100%;
+    /* Ensure it spans the grid column nicely */
     margin: 0 auto;
     /* Center the container */
     background: rgba(20, 21, 23, 0.4);
