@@ -59,7 +59,7 @@ const GET_PRODUCTS_QUERY = `
           valeursNutritionnelles: metafield(namespace: "custom", key: "valeurs_nutritionnelles") {
             value
           }
-          conseilsUtilisation: metafield(namespace: "custom", key: "conseils_utilisation") {
+          conseilsUtilisation: metafield(namespace: "custom", key: "conseils_d_utilisation") {
             value
           }
           composition: metafield(namespace: "custom", key: "composition") {
@@ -126,7 +126,7 @@ const GET_PRODUCT_QUERY = `
       valeursNutritionnelles: metafield(namespace: "custom", key: "valeurs_nutritionnelles") {
         value
       }
-      conseilsUtilisation: metafield(namespace: "custom", key: "conseils_utilisation") {
+      conseilsUtilisation: metafield(namespace: "custom", key: "conseils_d_utilisation") {
         value
       }
       composition: metafield(namespace: "custom", key: "composition") {
@@ -234,7 +234,7 @@ const GET_COLLECTION_PRODUCTS_QUERY = `
             valeursNutritionnelles: metafield(namespace: "custom", key: "valeurs_nutritionnelles") {
               value
             }
-            conseilsUtilisation: metafield(namespace: "custom", key: "conseils_utilisation") {
+            conseilsUtilisation: metafield(namespace: "custom", key: "conseils_d_utilisation") {
               value
             }
             composition: metafield(namespace: "custom", key: "composition") {
