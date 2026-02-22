@@ -43,12 +43,11 @@
 /* Content */
 .product-detail__content {
     display: grid;
-    grid-template-columns: 1fr 1.3fr;
-    /* Give more width to the info section */
+    grid-template-columns: 1.15fr 1fr;
+    /* Image takes slightly more space, card is smaller natively */
     gap: var(--space-4xl);
     padding: var(--space-xl) var(--space-xl);
     align-items: start;
-    /* Ensure neither side stretches vertically if not needed */
 }
 
 /* Gallery */
@@ -270,41 +269,51 @@
     margin-bottom: var(--space-sm);
 }
 
-.flavor-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    /* Reduced gap */
-    justify-content: flex-start;
+/* Custom Select (Flavors) */
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
 }
 
-.flavor-btn {
-    padding: 6px 12px;
-    /* Smaller padding */
-    min-width: 100px;
-    /* Reduced min-width */
-    text-align: center;
+.custom-select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
-    color: var(--color-text-secondary);
+    color: var(--color-text);
+    padding: var(--space-sm) var(--space-xl) var(--space-sm) var(--space-md);
+    font-size: var(--font-size-md);
+    font-family: var(--font-body);
     cursor: pointer;
     transition: all var(--transition-fast);
-    font-size: var(--font-size-sm);
-    font-family: var(--font-body);
 }
 
-.flavor-btn:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: var(--color-text);
+.custom-select:hover,
+.custom-select:focus {
+    border-color: var(--color-green-bright);
+    outline: none;
     background: rgba(255, 255, 255, 0.05);
 }
 
-.flavor-btn.active {
-    background: rgba(129, 193, 75, 0.1);
-    color: var(--color-green-bright);
-    border-color: var(--color-green-bright);
-    font-weight: 600;
+.custom-select option {
+    background: var(--color-bg-dark);
+    color: var(--color-text);
+}
+
+.custom-select-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--color-text-secondary);
+}
+
+.custom-select-icon svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* Thumbnails - Updated */
@@ -446,15 +455,12 @@
 
 /* Actions */
 .product-detail__actions-row {
-    margin-top: var(--space-xl);
-    margin-bottom: var(--space-md);
-}
-
-.product-detail__buttons {
     display: flex;
     align-items: stretch;
-    gap: var(--space-md);
-    margin-top: var(--space-xs);
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    width: 100%;
 }
 
 .product-detail__add-btn {
@@ -462,7 +468,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-sm);
+    padding: 0 var(--space-md);
+    white-space: nowrap;
 }
 
 .product-detail__wishlist-btn {

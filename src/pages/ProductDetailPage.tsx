@@ -270,71 +270,77 @@ export default function ProductDetailPage() {
                     {/* Flavor Selection */}
                     {product.flavors && (
                         <div className="product-detail__selector-group">
-                            <label className="product-detail__label">Saveur : <span className="text-primary">{selectedFlavor}</span></label>
-                            <div className="flavor-grid">
-                                {product.flavors.map(flavor => {
-                                    const fName = typeof flavor === 'string' ? flavor : flavor.name
-                                    return (
-                                        <button
-                                            key={fName}
-                                            className={`flavor-btn ${selectedFlavor === fName ? 'active' : ''} `}
-                                            onClick={() => handleFlavorChange(flavor)}
-                                        >
-                                            {fName}
-                                        </button>
-                                    )
-                                })}
+                            <label className="product-detail__label" htmlFor="flavor-select">Saveur</label>
+                            <div className="custom-select-wrapper">
+                                <select
+                                    id="flavor-select"
+                                    className="custom-select"
+                                    value={selectedFlavor || ''}
+                                    onChange={(e) => {
+                                        const flavorName = e.target.value;
+                                        const flavorObj = product.flavors?.find(f => (typeof f === 'string' ? f : f.name) === flavorName);
+                                        if (flavorObj) handleFlavorChange(flavorObj);
+                                    }}
+                                >
+                                    {product.flavors.map(flavor => {
+                                        const fName = typeof flavor === 'string' ? flavor : flavor.name;
+                                        return (
+                                            <option key={fName} value={fName}>
+                                                {fName}
+                                            </option>
+                                        )
+                                    })}
+                                </select>
+                                <div className="custom-select-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
                             </div>
                         </div>
                     )}
 
 
 
-                    {/* Quantity & Actions */}
+                    {/* Quantity & Actions (All on the same line) */}
                     <div className="product-detail__actions-row">
-                        <div className="product-detail__selector-group" style={{ marginBottom: 0 }}>
-                            <label className="product-detail__label" style={{ marginBottom: '8px' }}>Quantité</label>
-                            <div className="product-detail__quantity">
-                                <button
-                                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                                    disabled={quantity <= 1}
-                                    aria-label="Decrease quantity"
-                                >
-                                    −
-                                </button>
-                                <span>{quantity}</span>
-                                <button
-                                    onClick={() => setQuantity(q => q + 1)}
-                                    aria-label="Increase quantity"
-                                >
-                                    +
-                                </button>
-                            </div>
+                        <div className="product-detail__quantity">
+                            <button
+                                onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                                disabled={quantity <= 1}
+                                aria-label="Decrease quantity"
+                            >
+                                −
+                            </button>
+                            <span>{quantity}</span>
+                            <button
+                                onClick={() => setQuantity(q => q + 1)}
+                                aria-label="Increase quantity"
+                            >
+                                +
+                            </button>
                         </div>
 
-                        <div className="product-detail__buttons">
-                            <button
-                                className="btn btn-primary btn-lg product-detail__add-btn"
-                                onClick={handleAddToCart}
-                                disabled={!product.inStock}
-                            >
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '10px' }}>
-                                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                                    <line x1="3" y1="6" x2="21" y2="6" />
-                                    <path d="M16 10a4 4 0 01-8 0" />
-                                </svg>
-                                {product.inStock ? 'Ajouter au panier' : 'Rupture de stock'}
-                            </button>
-                            <button
-                                className={`btn btn-secondary btn-lg product-detail__wishlist-btn ${isLiked ? 'active' : ''} `}
-                                onClick={handleToggleWishlist}
-                                aria-label={isLiked ? "Retirer des favoris" : "Ajouter aux favoris"}
-                            >
-                                <svg viewBox="0 0 24 24" fill={isLiked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                                </svg>
-                            </button>
-                        </div>
+                        <button
+                            className="btn btn-primary btn-lg product-detail__add-btn"
+                            onClick={handleAddToCart}
+                            disabled={!product.inStock}
+                        >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '8px' }}>
+                                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                                <line x1="3" y1="6" x2="21" y2="6" />
+                                <path d="M16 10a4 4 0 01-8 0" />
+                            </svg>
+                            {product.inStock ? 'Ajouter' : 'Rupture'}
+                        </button>
+
+                        <button
+                            className={`btn btn-secondary btn-lg product-detail__wishlist-btn ${isLiked ? 'active' : ''} `}
+                            onClick={handleToggleWishlist}
+                            aria-label={isLiked ? "Retirer des favoris" : "Ajouter aux favoris"}
+                        >
+                            <svg viewBox="0 0 24 24" fill={isLiked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                        </button>
                     </div>
 
                     <div className="product-detail__trust-features">
