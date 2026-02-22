@@ -392,80 +392,98 @@ export default function ProductDetailPage() {
                         </div>
                     )}
 
-                    {activeTab === 'nutrition' && (product.nutritionalValues || product.aminogram) && (
+                    {activeTab === 'nutrition' && (
                         <div className="tab-panel">
-                            {product.nutritionalValues && (
-                                <div style={{ marginBottom: '2rem' }}>
-                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
-                                        Apports nutritionnels {product.nutritionalValues.energy100g ? '' : `(pour ${product.nutritionalValues.portion})`}
-                                    </h4>
-                                    <table className="nutrition-table" style={{ width: '100%', maxWidth: '600px', borderCollapse: 'collapse', color: 'var(--color-text-secondary)' }}>
-                                        {product.nutritionalValues.energy100g ? (
-                                            <>
-                                                <thead>
-                                                    <tr style={{ borderBottom: '1px solid var(--glass-border)', textAlign: 'right' }}>
-                                                        <th style={{ textAlign: 'left', paddingBottom: '8px' }}>Valeurs</th>
-                                                        <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour 100g</th>
-                                                        <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour {product.nutritionalValues.portion}</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy}</td></tr>
-                                                    <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats}</td></tr>
-                                                    <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated}</td></tr>
-                                                    <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs}</td></tr>
-                                                    <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar}</td></tr>
-                                                    <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein}</td></tr>
-                                                    <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt}</td></tr>
-                                                </tbody>
-                                            </>
-                                        ) : (
-                                            <tbody>
-                                                <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy}</td></tr>
-                                                <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats}</td></tr>
-                                                <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated}</td></tr>
-                                                <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs}</td></tr>
-                                                <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar}</td></tr>
-                                                <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein}</td></tr>
-                                                <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt}</td></tr>
-                                            </tbody>
-                                        )}
-                                    </table>
-                                </div>
-                            )}
+                            {product.metafieldNutrition ? (
+                                <div dangerouslySetInnerHTML={{ __html: product.metafieldNutrition.replace(/\n/g, '<br />') }} />
+                            ) : (product.nutritionalValues || product.aminogram) ? (
+                                <>
+                                    {product.nutritionalValues && (
+                                        <div style={{ marginBottom: '2rem' }}>
+                                            <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
+                                                Apports nutritionnels {product.nutritionalValues.energy100g ? '' : `(pour ${product.nutritionalValues.portion})`}
+                                            </h4>
+                                            <table className="nutrition-table" style={{ width: '100%', maxWidth: '600px', borderCollapse: 'collapse', color: 'var(--color-text-secondary)' }}>
+                                                {product.nutritionalValues.energy100g ? (
+                                                    <>
+                                                        <thead>
+                                                            <tr style={{ borderBottom: '1px solid var(--glass-border)', textAlign: 'right' }}>
+                                                                <th style={{ textAlign: 'left', paddingBottom: '8px' }}>Valeurs</th>
+                                                                <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour 100g</th>
+                                                                <th style={{ paddingBottom: '8px', paddingLeft: '16px' }}>Pour {product.nutritionalValues.portion}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy}</td></tr>
+                                                            <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats}</td></tr>
+                                                            <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated}</td></tr>
+                                                            <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs}</td></tr>
+                                                            <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar}</td></tr>
+                                                            <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein}</td></tr>
+                                                            <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt100g}</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt}</td></tr>
+                                                        </tbody>
+                                                    </>
+                                                ) : (
+                                                    <tbody>
+                                                        <tr><td>Énergie</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.energy}</td></tr>
+                                                        <tr><td>Matières grasses</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fats}</td></tr>
+                                                        <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont acides gras saturés</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.fatsSaturated}</td></tr>
+                                                        <tr><td>Glucides</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbs}</td></tr>
+                                                        <tr><td style={{ paddingLeft: '1rem', fontSize: '0.9em' }}>dont sucres</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.carbsSugar}</td></tr>
+                                                        <tr><td>Protéines</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.protein}</td></tr>
+                                                        <tr><td>Sel</td><td style={{ textAlign: 'right' }}>{product.nutritionalValues.salt}</td></tr>
+                                                    </tbody>
+                                                )}
+                                            </table>
+                                        </div>
+                                    )}
 
-                            {product.aminogram && (
-                                <div>
-                                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>Aminogramme Moyen (Pour {product.aminogramPortion || '100 g'})</h4>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
-                                        {product.aminogram.map((amino, idx) => (
-                                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
-                                                <span>{amino.label}</span>
-                                                <span style={{ color: 'var(--color-text-primary)' }}>{amino.value}</span>
+                                    {product.aminogram && (
+                                        <div>
+                                            <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>Aminogramme Moyen (Pour {product.aminogramPortion || '100 g'})</h4>
+                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
+                                                {product.aminogram.map((amino, idx) => (
+                                                    <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
+                                                        <span>{amino.label}</span>
+                                                        <span style={{ color: 'var(--color-text-primary)' }}>{amino.value}</span>
+                                                    </div>
+                                                ))}
                                             </div>
-                                        ))}
-                                    </div>
-                                </div>
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <p>Informations nutritionnelles non disponibles.</p>
                             )}
                         </div>
                     )}
 
                     {activeTab === 'ingredients' && (
                         <div className="tab-panel">
-                            <p style={{ whiteSpace: 'pre-line' }}>{product.ingredients || 'Informations non disponibles.'}</p>
+                            {product.metafieldComposition ? (
+                                <div dangerouslySetInnerHTML={{ __html: product.metafieldComposition.replace(/\n/g, '<br />') }} />
+                            ) : (
+                                <p style={{ whiteSpace: 'pre-line' }}>{product.ingredients || 'Informations non disponibles.'}</p>
+                            )}
                         </div>
                     )}
 
                     {activeTab === 'usage' && (
                         <div className="tab-panel">
-                            {product.usage && product.usage.split('\n\n').map((paragraph, index) => (
-                                <p key={index} style={{ marginBottom: '1rem' }}>{paragraph}</p>
-                            ))}
-                            {product.precautions && (
-                                <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(255,50,50,0.05)', borderRadius: '8px', border: '1px solid rgba(255,50,50,0.2)' }}>
-                                    <h4 style={{ color: '#ff4b4b', marginBottom: '0.5rem', fontSize: '1rem' }}>Précautions d'emploi</h4>
-                                    <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>{product.precautions}</p>
-                                </div>
+                            {product.metafieldUsage ? (
+                                <div dangerouslySetInnerHTML={{ __html: product.metafieldUsage.replace(/\n/g, '<br />') }} />
+                            ) : (
+                                <>
+                                    {product.usage && product.usage.split('\n\n').map((paragraph, index) => (
+                                        <p key={index} style={{ marginBottom: '1rem' }}>{paragraph}</p>
+                                    ))}
+                                    {product.precautions && (
+                                        <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(255,50,50,0.05)', borderRadius: '8px', border: '1px solid rgba(255,50,50,0.2)' }}>
+                                            <h4 style={{ color: '#ff4b4b', marginBottom: '0.5rem', fontSize: '1rem' }}>Précautions d'emploi</h4>
+                                            <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>{product.precautions}</p>
+                                        </div>
+                                    )}
+                                </>
                             )}
                         </div>
                     )}

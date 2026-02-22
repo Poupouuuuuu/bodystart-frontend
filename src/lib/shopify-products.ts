@@ -41,6 +41,9 @@ export interface ShopifyProduct {
       };
     }[];
   };
+  valeursNutritionnelles?: { value: string } | null;
+  conseilsUtilisation?: { value: string } | null;
+  composition?: { value: string } | null;
 }
 
 const GET_PRODUCTS_QUERY = `
@@ -53,6 +56,15 @@ const GET_PRODUCTS_QUERY = `
           title
           description
           descriptionHtml
+          valeursNutritionnelles: metafield(namespace: "custom", key: "valeurs_nutritionnelles") {
+            value
+          }
+          conseilsUtilisation: metafield(namespace: "custom", key: "conseils_utilisation") {
+            value
+          }
+          composition: metafield(namespace: "custom", key: "composition") {
+            value
+          }
           priceRange {
             minVariantPrice {
               amount
@@ -111,6 +123,15 @@ const GET_PRODUCT_QUERY = `
       title
       description
       descriptionHtml
+      valeursNutritionnelles: metafield(namespace: "custom", key: "valeurs_nutritionnelles") {
+        value
+      }
+      conseilsUtilisation: metafield(namespace: "custom", key: "conseils_utilisation") {
+        value
+      }
+      composition: metafield(namespace: "custom", key: "composition") {
+        value
+      }
       priceRange {
         minVariantPrice {
           amount
@@ -210,6 +231,15 @@ const GET_COLLECTION_PRODUCTS_QUERY = `
             title
             handle
             description
+            valeursNutritionnelles: metafield(namespace: "custom", key: "valeurs_nutritionnelles") {
+              value
+            }
+            conseilsUtilisation: metafield(namespace: "custom", key: "conseils_utilisation") {
+              value
+            }
+            composition: metafield(namespace: "custom", key: "composition") {
+              value
+            }
             vendor
             priceRange {
               minVariantPrice {
@@ -290,6 +320,9 @@ export function mapShopifyToLocalProduct(sp: ShopifyProduct): Product {
     image: mainImage,
     images: images,
     description: sp.description || '',
+    metafieldNutrition: sp.valeursNutritionnelles?.value,
+    metafieldUsage: sp.conseilsUtilisation?.value,
+    metafieldComposition: sp.composition?.value,
     inStock: isAvailable,
     isNew: true,
     isBestseller: true,
